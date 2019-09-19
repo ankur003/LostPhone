@@ -1,4 +1,4 @@
-package com.school.portal.classrepo;
+package com.school.portal.repo.classmaster;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

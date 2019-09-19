@@ -1,4 +1,4 @@
-package com.school.portal.sectionrepo;
+package com.school.portal.repo.sectionmaster;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
