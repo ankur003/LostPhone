@@ -6,4 +6,6 @@ import com.school.portal.domain.ClassMaster;
 
 public interface ClassMasterRepo extends JpaRepository<ClassMaster, Long> {
 
+	ClassMaster findByClassName(String className);
+
 }

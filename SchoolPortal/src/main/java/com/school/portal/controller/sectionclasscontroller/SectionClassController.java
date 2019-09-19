@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.school.portal.dto.SectionClassDto;
 import com.school.portal.service.sectionclass.SectionClassService;
 
+import io.swagger.annotations.Api;
+@Api
 @RestController
 public class SectionClassController {
 	
@@ -21,8 +23,11 @@ public class SectionClassController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SectionClassController.class);
 
-	@PostMapping(value = "")
+	@PostMapping(value = "/save")
 	public ResponseEntity<Object> createSectionAndClass(@Valid @RequestBody SectionClassDto sectionClassDto) {
+		
+		boolean isAlreadyCreated = sectionClassService.checkAlreadyCreatedClassOrSection(sectionClassDto);
+		
 		return null;
 
 	}
