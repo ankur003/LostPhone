@@ -24,35 +24,54 @@ public class SectionClassServiceImpl implements SectionClassService {
 	SectionRepo sectionRepo;
 
 	@Override
-	public boolean checkAlreadyCreatedClassOrSection(SectionClassDto sectionClassDto) {
-		ClassMaster classMaster = classMasterRepo.findByClassName(sectionClassDto.getClassName());
+	public ClassMaster checkAlreadyCreatedClassOrSectionAndSave(SectionClassDto sectionClassDto) {
+		ClassMaster classMaster = classMasterRepo.findByClassNameAndIsActive(sectionClassDto.getClassName(), true);
 		if (Objects.isNull(classMaster)) {
 			classMaster = new ClassMaster();
 			classMaster.setClassName(sectionClassDto.getClassName());
 			classMaster.setCreatedAt(new Date());
 			List<SectionMaster> list = new ArrayList<>();
+			if (sectionClassDto.getSectionNames() != null && !sectionClassDto.getSectionNames().isEmpty()) {
+				for (String sectionName : sectionClassDto.getSectionNames()) {
+					SectionMaster newSectionMaster = new SectionMaster();
+					newSectionMaster.setCreatedAt(new Date());
+					newSectionMaster.setIsActive(true);
+					newSectionMaster.setSectionName(sectionName);
+					newSectionMaster.setClassMaster(classMaster);
+					list.add(newSectionMaster);
+				}
+				classMaster.setSectionMaster(list);
+				classMaster = classMasterRepo.save(classMaster);
+			}
+		}
+		if (sectionClassDto.getSectionNames() != null && !sectionClassDto.getSectionNames().isEmpty()) {
 			for (String sectionName : sectionClassDto.getSectionNames()) {
-				SectionMaster newSectionMaster = new SectionMaster();
-				newSectionMaster.setCreatedAt(new Date());
-				newSectionMaster.setIsActive(true);
-				newSectionMaster.setSectionName(sectionName);
-				newSectionMaster.setClassMaster(classMaster);
-				list.add(newSectionMaster);
-			}
-			classMaster.setSectionMaster(list);
-			return classMasterRepo.save(classMaster) != null;
-		}
-		for (String sectionName : sectionClassDto.getSectionNames()) {
-			SectionMaster sectionMaster = sectionRepo.findBySectionNameAndClassMaster(sectionName, classMaster);
-			if (Objects.isNull(sectionMaster)) {
-				sectionMaster = new SectionMaster();
-				sectionMaster.setClassMaster(classMaster);
-				sectionMaster.setCreatedAt(new Date());
-				sectionMaster.setIsActive(true);
-				sectionMaster.setSectionName(sectionName);
-				sectionRepo.save(sectionMaster);
+				SectionMaster sectionMaster = sectionRepo.findBySectionNameAndClassMaster(sectionName, classMaster);
+				if (Objects.isNull(sectionMaster)) {
+					sectionMaster = new SectionMaster();
+					sectionMaster.setClassMaster(classMaster);
+					sectionMaster.setCreatedAt(new Date());
+					sectionMaster.setIsActive(true);
+					sectionMaster.setSectionName(sectionName);
+					sectionRepo.save(sectionMaster);
+				}
 			}
 		}
-		return true;
+		return classMaster;
+	}
+
+	@Override
+	public ClassMaster checkIsClassExists(String className) {
+		return classMasterRepo.findByClassNameAndIsActive(className, true);
+	}
+
+	@Override
+	public ClassMaster disableClassAndSection(ClassMaster classMaster) {
+		classMaster.setIsActive(false);
+		List<SectionMaster> sectionList = classMaster.getSectionMaster();
+		for (SectionMaster section : sectionList) {
+			section.setIsActive(false);
+		}
+		return classMasterRepo.save(classMaster);
 	}
 }

@@ -25,7 +25,7 @@ public class ClassMaster implements Serializable {
 	@Column(unique = true)
 	private String className;
 
-	@OneToMany(mappedBy = "classMaster" , cascade=CascadeType.ALL)
+	@OneToMany(mappedBy = "classMaster", cascade = CascadeType.ALL)
 	private List<SectionMaster> sectionMaster = new ArrayList<>();
 
 	private Boolean isActive = true;

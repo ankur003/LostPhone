@@ -96,5 +96,4 @@ public class SectionMaster implements Serializable {
 	public void setClassMaster(ClassMaster classMaster) {
 		this.classMaster = classMaster;
 	}
-
 }
