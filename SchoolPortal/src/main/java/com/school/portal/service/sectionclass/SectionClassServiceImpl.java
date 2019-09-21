@@ -26,6 +26,10 @@ public class SectionClassServiceImpl implements SectionClassService {
 	@Override
 	public ClassMaster checkAlreadyCreatedClassOrSectionAndSave(SectionClassDto sectionClassDto) {
 		ClassMaster classMaster = classMasterRepo.findByClassNameAndIsActive(sectionClassDto.getClassName(), true);
+		ClassMaster classDetails = classMasterRepo.findByClassName(sectionClassDto.getClassName());
+		if (Objects.nonNull(classDetails)) {
+			return null;
+		}
 		if (Objects.isNull(classMaster)) {
 			classMaster = new ClassMaster();
 			classMaster.setClassName(sectionClassDto.getClassName());
@@ -41,8 +45,8 @@ public class SectionClassServiceImpl implements SectionClassService {
 					list.add(newSectionMaster);
 				}
 				classMaster.setSectionMaster(list);
-				classMaster = classMasterRepo.save(classMaster);
 			}
+			classMaster = classMasterRepo.save(classMaster);
 		}
 		if (sectionClassDto.getSectionNames() != null && !sectionClassDto.getSectionNames().isEmpty()) {
 			for (String sectionName : sectionClassDto.getSectionNames()) {
@@ -61,16 +65,57 @@ public class SectionClassServiceImpl implements SectionClassService {
 	}
 
 	@Override
-	public ClassMaster checkIsClassExists(String className) {
-		return classMasterRepo.findByClassNameAndIsActive(className, true);
+	public ClassMaster checkIsClassExists(String className, boolean isActive) {
+		return classMasterRepo.findByClassNameAndIsActive(className, isActive);
 	}
 
 	@Override
-	public ClassMaster disableClassAndSection(ClassMaster classMaster) {
+	public ClassMaster disableClassAndSections(ClassMaster classMaster) {
 		classMaster.setIsActive(false);
 		List<SectionMaster> sectionList = classMaster.getSectionMaster();
 		for (SectionMaster section : sectionList) {
 			section.setIsActive(false);
+		}
+		return classMasterRepo.save(classMaster);
+	}
+
+	@Override
+	public ClassMaster disablePurticularSection(ClassMaster classMaster, String sectionName) {
+		List<SectionMaster> sectionList = classMaster.getSectionMaster();
+		for (SectionMaster section : sectionList) {
+			if (section.getSectionName().equalsIgnoreCase(sectionName)) {
+				section.setIsActive(false);
+			}
+		}
+		return classMasterRepo.save(classMaster);
+	}
+
+	@Override
+	public List<ClassMaster> getAllClassAndSections() {
+		return classMasterRepo.findAll();
+	}
+
+	@Override
+	public ClassMaster getSectionsListByClassName(String className) {
+		return checkIsClassExists(className, true);
+	}
+
+	@Override
+	public ClassMaster enableClass(ClassMaster classMaster) {
+		classMaster.setIsActive(true);
+		return classMasterRepo.save(classMaster);
+	}
+
+	@Override
+	public ClassMaster enableSections(ClassMaster classMaster, List<String> sectionNames) {
+		if (sectionNames == null || sectionNames.isEmpty()) {
+			return null;
+		}
+		List<SectionMaster> listOfSections = classMaster.getSectionMaster();
+		for (SectionMaster sectionMaster : listOfSections) {
+			if (!sectionMaster.getIsActive() && sectionNames.contains(sectionMaster.getSectionName())) {
+				sectionMaster.setIsActive(true);
+			}
 		}
 		return classMasterRepo.save(classMaster);
 	}

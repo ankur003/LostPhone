@@ -13,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class ClassMaster implements Serializable {
 
@@ -26,6 +28,7 @@ public class ClassMaster implements Serializable {
 	private String className;
 
 	@OneToMany(mappedBy = "classMaster", cascade = CascadeType.ALL)
+	@JsonManagedReference
 	private List<SectionMaster> sectionMaster = new ArrayList<>();
 
 	private Boolean isActive = true;

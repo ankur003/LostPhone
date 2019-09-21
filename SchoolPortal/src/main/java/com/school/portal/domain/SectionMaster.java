@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class SectionMaster implements Serializable {
 
@@ -21,9 +23,10 @@ public class SectionMaster implements Serializable {
 	private String sectionName;
 
 	@ManyToOne
+	@JsonBackReference
 	private ClassMaster classMaster;
 
-	private Boolean isActive = true;
+	private boolean isActive = true;
 
 	private String createdOn;
 
@@ -49,11 +52,11 @@ public class SectionMaster implements Serializable {
 		this.sectionName = sectionName;
 	}
 
-	public Boolean getIsActive() {
+	public boolean getIsActive() {
 		return isActive;
 	}
 
-	public void setIsActive(Boolean isActive) {
+	public void setIsActive(boolean isActive) {
 		this.isActive = isActive;
 	}
 
