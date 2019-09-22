@@ -9,6 +9,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.school.portal.domain.ClassMaster;
 import com.school.portal.domain.SectionMaster;
+import com.school.portal.domain.User;
 import com.school.portal.dto.EnabledClassDto;
 
 public class ResponseBuildUtility {
@@ -67,6 +68,14 @@ public class ResponseBuildUtility {
 				map.put(classMaster.getClassName(), classDto);
 			}
 		}
+		return map;
+	}
+
+	public static Map<String, Object> buildLoginResponse(String jwtToken, User user) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("token", jwtToken);
+		map.put("userName", user.getUsername());
+		map.put(user.getUserType(), user.getUserType());
 		return map;
 	}
 }

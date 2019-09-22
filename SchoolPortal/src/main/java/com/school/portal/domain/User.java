@@ -1,77 +1,144 @@
 package com.school.portal.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class User {
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private long id;
-    @Column
-    private String username;
-    @Column
-    @JsonIgnore
-    private String password;
-    @Column
-    private long salary;
-    @Column
-    private int age;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+	@Column
+	private String username;
+	@Column
+	@JsonIgnore
+	private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "USER_ROLES", joinColumns = {
-            @JoinColumn(name = "USER_ID") }, inverseJoinColumns = {
-            @JoinColumn(name = "ROLE_ID") })
-    private Set<Role> roles;
+	@Column
+	private String userType;
 
-    public long getId() {
-        return id;
-    }
+	@Column
+	private Date dob;
 
-    public void setId(long id) {
-        this.id = id;
-    }
+	@Column
+	private Date doj;
 
-    public String getUsername() {
-        return username;
-    }
+	@Column
+	private long rollNo;
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	@Column
+	private String className;
 
-    public String getPassword() {
-        return password;
-    }
+	@Column
+	private String sectionName;
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	@Column
+	private String name;
 
-    public long getSalary() {
-        return salary;
-    }
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "USER_ROLES", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = {
+			@JoinColumn(name = "ROLE_ID") })
+	private Set<Role> roles;
 
-    public void setSalary(long salary) {
-        this.salary = salary;
-    }
+	public long getId() {
+		return id;
+	}
 
-    public int getAge() {
-        return age;
-    }
+	public void setId(long id) {
+		this.id = id;
+	}
 
-    public void setAge(int age) {
-        this.age = age;
-    }
+	public String getUsername() {
+		return username;
+	}
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
+	public String getUserType() {
+		return userType;
+	}
+
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
+
+	public Date getDob() {
+		return dob;
+	}
+
+	public void setDob(Date dob) {
+		this.dob = dob;
+	}
+
+	public Date getDoj() {
+		return doj;
+	}
+
+	public void setDoj(Date doj) {
+		this.doj = doj;
+	}
+
+	public long getRollNo() {
+		return rollNo;
+	}
+
+	public void setRollNo(long rollNo) {
+		this.rollNo = rollNo;
+	}
+
+	public String getClassName() {
+		return className;
+	}
+
+	public void setClassName(String className) {
+		this.className = className;
+	}
+
+	public String getSectionName() {
+		return sectionName;
+	}
+
+	public void setSectionName(String sectionName) {
+		this.sectionName = sectionName;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 }

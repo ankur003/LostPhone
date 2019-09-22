@@ -76,6 +76,7 @@ public class SectionClassController {
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
+	//////@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
 	@GetMapping(value = "/getAllEnableClassAndSections")
 	public ResponseEntity<Object> getAllEnableClassAndSections() {
 		List<ClassMaster> classDetailsList = sectionClassService.getAllClassAndSections();

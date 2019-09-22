@@ -1,4 +1,4 @@
-package com.school.portal.config;
+package com.school.portal.security;
 
 import io.jsonwebtoken.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
