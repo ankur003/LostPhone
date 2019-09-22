@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.school.portal.domain.ClassMaster;
 import com.school.portal.domain.SectionMaster;
 import com.school.portal.dto.SectionClassDto;
@@ -75,8 +75,9 @@ public class SectionClassController {
 				ResponseCode.ACKNOWLEDGE, classResponseMap);
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping(value = "/getAllEnableClassAndSections")
-	public ResponseEntity<Object> getAllEnableClassAndSections() throws JsonProcessingException {
+	public ResponseEntity<Object> getAllEnableClassAndSections() {
 		List<ClassMaster> classDetailsList = sectionClassService.getAllClassAndSections();
 		LOGGER.info("classMaster ===== > {}", classDetailsList);
 		Map<String, Object> classResponseMap = ResponseBuildUtility
