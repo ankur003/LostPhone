@@ -1,4 +1,4 @@
-package com.school.portal.service.sectionclass;
+package com.school.portal.service;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import com.school.portal.domain.ClassMaster;
 import com.school.portal.domain.SectionMaster;
 import com.school.portal.dto.SectionClassDto;
-import com.school.portal.repo.classmaster.ClassMasterRepo;
-import com.school.portal.repo.sectionmaster.SectionRepo;
+import com.school.portal.repo.ClassMasterRepo;
+import com.school.portal.repo.SectionRepo;
 
 @Service
 public class SectionClassServiceImpl implements SectionClassService {

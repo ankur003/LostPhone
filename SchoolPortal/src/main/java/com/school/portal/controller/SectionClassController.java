@@ -1,4 +1,4 @@
-package com.school.portal.controller.sectionclasscontroller;
+package com.school.portal.controller;
 
 import java.util.List;
 import java.util.Map;
@@ -28,7 +28,7 @@ import com.school.portal.domain.SectionMaster;
 import com.school.portal.dto.SectionClassDto;
 import com.school.portal.enums.ErrorCode;
 import com.school.portal.enums.ResponseCode;
-import com.school.portal.service.sectionclass.SectionClassService;
+import com.school.portal.service.SectionClassService;
 import com.school.portal.utils.ErrorCollectionUtil;
 import com.school.portal.utils.ResponseBuildUtility;
 import com.school.portal.utils.ResponseHandler;

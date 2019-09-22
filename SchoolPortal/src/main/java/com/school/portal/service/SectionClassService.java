@@ -1,4 +1,4 @@
-package com.school.portal.service.sectionclass;
+package com.school.portal.service;
 
 import java.util.List;
 
