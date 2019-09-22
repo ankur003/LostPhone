@@ -24,7 +24,7 @@ public class ApplicationConfig {
 
 	@Autowired
 	private BCryptPasswordEncoder encoder;
-	
+
 	@PostConstruct
 	private void createAdmin() {
 		User admin = userRepo.findByUsername("admin@schoolportal.com");
@@ -41,6 +41,7 @@ public class ApplicationConfig {
 			admin.setDoj(new Date());
 			admin.setName("principle");
 			admin.setUserType(UserType.PRINCIPLE.name());
+			admin.setAdmin(true);
 			userRepo.save(admin);
 		}
 	}

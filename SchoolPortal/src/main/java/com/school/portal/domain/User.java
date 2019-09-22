@@ -49,6 +49,9 @@ public class User {
 	@Column
 	private String name;
 
+	@Column
+	private boolean isAdmin = false;
+
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "USER_ROLES", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "ROLE_ID") })
@@ -141,4 +144,13 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
+
 }
