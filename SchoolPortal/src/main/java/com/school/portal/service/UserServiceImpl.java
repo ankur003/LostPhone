@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	@Autowired
 	UserRepo userRepo;
 
-	public UserDetails loadUserByUsername(String username) {
+	public UserDetails loadUserByUsername(String username){
 		User user = userRepo.findByUsername(username);
 		if (user == null) {
 			throw new UsernameNotFoundException("Invalid username or password.");
