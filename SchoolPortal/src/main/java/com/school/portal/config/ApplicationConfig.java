@@ -27,7 +27,7 @@ public class ApplicationConfig {
 
 	@PostConstruct
 	private void createAdmin() {
-		User admin = userRepo.findByUsername("admin@schoolportal.com");
+		User admin = userRepo.findByUsernameAndIsActive("admin@schoolportal.com", true);
 		if (Objects.isNull(admin)) {
 			admin = new User();
 			admin.setPassword(encoder.encode("admin"));

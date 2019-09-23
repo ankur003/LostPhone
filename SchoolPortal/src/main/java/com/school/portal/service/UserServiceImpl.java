@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	private BCryptPasswordEncoder encoder;
 
 	public UserDetails loadUserByUsername(String username) {
-		User user = userRepo.findByUsername(username);
+		User user = userRepo.findByUsernameAndIsActive(username, true);
 		if (user == null) {
 			throw new UsernameNotFoundException("Invalid username or password.");
 		}
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
 	@Override
 	public User checkCredaintials(LoginUser loginUser) {
-		User user = userRepo.findByUsername(loginUser.getUsername());
+		User user = userRepo.findByUsernameAndIsActive(loginUser.getUsername(), true);
 		if (Objects.isNull(user)) {
 			return null;
 		}

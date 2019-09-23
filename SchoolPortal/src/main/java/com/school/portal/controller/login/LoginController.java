@@ -36,7 +36,7 @@ public class LoginController {
 	UserService userService;
 
 	@PostMapping(value = "/login")
-	public ResponseEntity<Object> register(@RequestBody LoginUser loginUser) {
+	public ResponseEntity<Object> login(@RequestBody LoginUser loginUser) {
 		User user = userService.checkCredaintials(loginUser);
 		if (Objects.isNull(user)) {
 			return ResponseHandler.response(HttpStatus.BAD_REQUEST, true, "Incorrect Details", ErrorCode.ERROR,

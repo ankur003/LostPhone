@@ -6,8 +6,8 @@ import com.school.portal.domain.User;
 
 public interface UserRepo extends JpaRepository<User, Long> {
 
-	User findByUsername(String username);
+	User findByUsernameAndIsActive(String username, boolean isActive);
 
-	User findByUsernameAndPassword(String username, String password);
+	User getUser(String userEmail);
 
 }
