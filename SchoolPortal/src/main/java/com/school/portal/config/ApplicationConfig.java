@@ -24,7 +24,7 @@ public class ApplicationConfig {
 
 	@Autowired
 	private BCryptPasswordEncoder encoder;
-
+	
 	@PostConstruct
 	private void createAdmin() {
 		User admin = userRepo.findByUsernameAndIsActive("admin@schoolportal.com", true);

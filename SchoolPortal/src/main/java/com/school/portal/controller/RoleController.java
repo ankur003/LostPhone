@@ -31,7 +31,7 @@ public class RoleController {
 	public ResponseEntity<Object> assignRole(@RequestParam("userEmail") String userEmail,
 			@RequestParam("roleName") Role roleName) {
 		
-		User user = userService.getUser(userEmail);
+		//User user = userService.getUser(userEmail);
 
 		return ResponseHandler.response(HttpStatus.OK, false, "Login Success", ErrorCode.OK, ResponseCode.ACKNOWLEDGE,
 				"");
