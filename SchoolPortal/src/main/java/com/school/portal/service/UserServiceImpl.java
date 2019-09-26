@@ -54,4 +54,31 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 		}
 		return null;
 	}
+
+	@Override
+	public User getUser(String userEmail) {
+		return userRepo.findByUsernameAndIsActive(userEmail, true);
+	}
+
+	@Override
+	public boolean assignOrRemoveRole(User user, String roleName, Boolean isAssign) {
+		Set<com.school.portal.domain.Role> roleSet = user.getRoles();
+		if (isAssign) {
+			for (com.school.portal.domain.Role role : roleSet) {
+				if (role.getName().equalsIgnoreCase(roleName)) {
+					return false;
+				}
+			}
+			com.school.portal.domain.Role role = new com.school.portal.domain.Role();
+			role.setName(roleName);
+			return userRepo.save(user) != null;
+		}
+		for (com.school.portal.domain.Role role : roleSet) {
+			if (role.getName().equalsIgnoreCase(roleName)) {
+				roleSet.remove(role);
+				return userRepo.save(user) != null;
+			}
+		}
+		return false;
+	}
 }

@@ -87,7 +87,7 @@ public class SectionClassController {
 				ResponseCode.ACKNOWLEDGE, classResponseMap);
 	}
 
-	@GetMapping(value = "/getSectionsListByClassNameS")
+	@GetMapping(value = "/getSectionsListByClassName")
 	public ResponseEntity<Object> getSectionsListByClassName(
 			@NotBlank(message = "className is missing or null ") @RequestParam("className") String className) {
 		ClassMaster classDetails = sectionClassService.getSectionsListByClassName(className);

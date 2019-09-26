@@ -7,4 +7,8 @@ public interface UserService {
 
 	public User checkCredaintials(LoginUser loginUser);
 
+	public User getUser(String userEmail);
+
+	public boolean assignOrRemoveRole(User user, String roleName, Boolean isAssign);
+
 }

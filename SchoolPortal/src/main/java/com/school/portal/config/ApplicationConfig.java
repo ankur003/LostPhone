@@ -24,7 +24,7 @@ public class ApplicationConfig {
 
 	@Autowired
 	private BCryptPasswordEncoder encoder;
-	
+
 	@PostConstruct
 	private void createAdmin() {
 		User admin = userRepo.findByUsernameAndIsActive("admin@schoolportal.com", true);
@@ -35,6 +35,12 @@ public class ApplicationConfig {
 			Role role = new Role();
 			role.setDescription("Admin role for the principle");
 			role.setName(com.school.portal.enums.Role.ADMIN.name());
+
+			Role role1 = new Role();
+			role1.setDescription("Admin role for the principle");
+			role1.setName(com.school.portal.enums.Role.STUDENT.name());
+
+			roles.add(role1);
 			roles.add(role);
 			admin.setRoles(roles);
 			admin.setUsername("admin@schoolportal.com");
