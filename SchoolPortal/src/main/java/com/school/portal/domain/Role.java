@@ -1,14 +1,10 @@
 package com.school.portal.domain;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 
 @Entity
 public class Role {
@@ -17,14 +13,10 @@ public class Role {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@Column(unique = true)
 	private String name;
 
 	@Column
 	private String description;
-
-	@ManyToMany
-	private Set<User> user = new HashSet<>();
 
 	public long getId() {
 		return id;
@@ -49,13 +41,4 @@ public class Role {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	public Set<User> getUser() {
-		return user;
-	}
-
-	public void setUser(Set<User> user) {
-		this.user = user;
-	}
-
 }

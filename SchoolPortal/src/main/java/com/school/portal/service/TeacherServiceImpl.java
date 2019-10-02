@@ -1,6 +1,5 @@
 package com.school.portal.service;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,22 +40,17 @@ public class TeacherServiceImpl implements TeacherService {
 			user.setUsername(createTeacherForm.getEmail());
 			user.setUserType(UserType.TEACHER.name());
 			setSectionAndClassDetails(user, createTeacherForm);
+			Set<Role> roles = new HashSet<>();
+			Role role = new Role();
+			role.setDescription("TEACHER role for the TEACHER");
+			role.setName(com.school.portal.enums.Role.TEACHER.name());
+			roles.add(role);
+			user.setRoles(roles);
 			user = userRepo.save(user);
-			setRole(user);
 			return user;
 		} catch (Exception e) {
 			return null;
 		}
-	}
-
-	private User setRole(User user) {
-		Set<User> userSet = new HashSet<>();
-		userSet.add(user);
-		Role role = new Role();
-		role.setDescription("Teacher role for the techer");
-		role.setName(com.school.portal.enums.Role.TEACHER.name());
-		role.setUser(userSet);
-		return user;
 	}
 
 	private User setSectionAndClassDetails(User user, CreateTeacherForm createTeacherForm) {
