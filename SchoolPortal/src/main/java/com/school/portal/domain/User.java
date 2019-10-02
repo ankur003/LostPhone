@@ -1,7 +1,8 @@
-package com.school.portal.domain;
+	package com.school.portal.domain;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -45,12 +46,6 @@ public class User {
 	private long rollNo;
 
 	@Column
-	private String className;
-
-	@Column
-	private String sectionName;
-
-	@Column
 	private String name;
 
 	@Column
@@ -62,11 +57,15 @@ public class User {
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "USER_ROLES", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "ROLE_ID") })
-	private Set<Role> roles;
+	private Set<Role> roles = new HashSet<>();
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<Address> address = new ArrayList<>();
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private Set<ClassNames> classNames = new HashSet<>();
 
 	public long getId() {
 		return id;
@@ -132,22 +131,6 @@ public class User {
 		this.rollNo = rollNo;
 	}
 
-	public String getClassName() {
-		return className;
-	}
-
-	public void setClassName(String className) {
-		this.className = className;
-	}
-
-	public String getSectionName() {
-		return sectionName;
-	}
-
-	public void setSectionName(String sectionName) {
-		this.sectionName = sectionName;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -178,6 +161,14 @@ public class User {
 
 	public void setAddress(List<Address> address) {
 		this.address = address;
+	}
+
+	public Set<ClassNames> getClassNames() {
+		return classNames;
+	}
+
+	public void setClassNames(Set<ClassNames> classNames) {
+		this.classNames = classNames;
 	}
 
 }

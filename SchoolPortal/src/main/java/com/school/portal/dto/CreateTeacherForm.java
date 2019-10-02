@@ -1,6 +1,8 @@
 package com.school.portal.dto;
 
 import java.util.Date;
+import java.util.Map;
+import java.util.Set;
 
 import javax.validation.constraints.NotBlank;
 
@@ -12,17 +14,13 @@ public class CreateTeacherForm {
 	@NotBlank(message = "email is null")
 	private String email;
 
-	private Date doj;
-
-	private Date dob;
+//	private Date doj;
+//
+//	private Date dob;
 
 	private boolean isClassTeacher;
 
-	@NotBlank(message = "className is  null")
-	private String className;
-
-	@NotBlank(message = "sectionName is  null")
-	private String sectionName;
+	private Map<String, Set<String>> teacherClassSectionMap;
 
 	public String getTeacherName() {
 		return teacherName;
@@ -32,13 +30,13 @@ public class CreateTeacherForm {
 		this.teacherName = teacherName;
 	}
 
-	public Date getDoj() {
-		return doj;
-	}
-
-	public void setDoj(Date doj) {
-		this.doj = doj;
-	}
+//	public Date getDoj() {
+//		return doj;
+//	}
+//
+//	public void setDoj(Date doj) {
+//		this.doj = doj;
+//	}
 
 	public boolean isClassTeacher() {
 		return isClassTeacher;
@@ -46,22 +44,6 @@ public class CreateTeacherForm {
 
 	public void setClassTeacher(boolean isClassTeacher) {
 		this.isClassTeacher = isClassTeacher;
-	}
-
-	public String getClassName() {
-		return className;
-	}
-
-	public void setClassName(String className) {
-		this.className = className;
-	}
-
-	public String getSectionName() {
-		return sectionName;
-	}
-
-	public void setSectionName(String sectionName) {
-		this.sectionName = sectionName;
 	}
 
 	public String getEmail() {
@@ -72,12 +54,19 @@ public class CreateTeacherForm {
 		this.email = email;
 	}
 
-	public Date getDob() {
-		return dob;
+//	public Date getDob() {
+//		return dob;
+//	}
+//
+//	public void setDob(Date dob) {
+//		this.dob = dob;
+//	}
+
+	public Map<String, Set<String>> getTeacherClassSectionMap() {
+		return teacherClassSectionMap;
 	}
 
-	public void setDob(Date dob) {
-		this.dob = dob;
+	public void setTeacherClassSectionMap(Map<String, Set<String>> teacherClassSectionMap) {
+		this.teacherClassSectionMap = teacherClassSectionMap;
 	}
-
 }

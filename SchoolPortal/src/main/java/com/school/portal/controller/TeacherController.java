@@ -19,6 +19,8 @@ import com.school.portal.domain.User;
 import com.school.portal.dto.CreateTeacherForm;
 import com.school.portal.enums.ErrorCode;
 import com.school.portal.enums.ResponseCode;
+import com.school.portal.enums.Role;
+import com.school.portal.service.RoleService;
 import com.school.portal.service.TeacherService;
 import com.school.portal.utils.ErrorCollectionUtil;
 import com.school.portal.utils.ResponseHandler;
@@ -32,6 +34,9 @@ public class TeacherController {
 
 	@Autowired
 	TeacherService teacherService;
+
+	@Autowired
+	RoleService roleService;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(TeacherController.class);
 
@@ -50,12 +55,18 @@ public class TeacherController {
 			return ResponseHandler.response(HttpStatus.BAD_REQUEST, true, "Teacher Already Exist", ErrorCode.ERROR,
 					ResponseCode.ACKNOWLEDGE_WITHOUT_RESPONSE_OBJECT);
 		}
-		User teacher = teacherService.createTeacher(createTeacherForm);
-		if (teacher == null) {
+
+		boolean isRoleExist = roleService.checkRole(Role.TEACHER);
+		if (!isRoleExist) {
 			return ResponseHandler.response(HttpStatus.BAD_REQUEST, true, "Create Teacher Role first", ErrorCode.ERROR,
 					ResponseCode.ACKNOWLEDGE_WITHOUT_RESPONSE_OBJECT);
 		}
+		User teacher = teacherService.createTeacher(createTeacherForm);
+		if (teacher == null) {
+			return ResponseHandler.response(HttpStatus.INTERNAL_SERVER_ERROR, true, "Teacher creation failed",
+					ErrorCode.ERROR, ResponseCode.ACKNOWLEDGE_WITHOUT_RESPONSE_OBJECT);
+		}
 		return ResponseHandler.response(HttpStatus.OK, false, "Teacher Created Successfully", ErrorCode.OK,
-				ResponseCode.ACKNOWLEDGE, teacher);
+				ResponseCode.ACKNOWLEDGE, teacher.getName());
 	}
 }
