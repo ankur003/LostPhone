@@ -12,6 +12,7 @@ import com.school.portal.domain.SectionNames;
 import com.school.portal.domain.User;
 import com.school.portal.dto.CreateTeacherForm;
 import com.school.portal.enums.UserType;
+import com.school.portal.repo.RoleRepo;
 import com.school.portal.repo.UserRepo;
 
 @Service
@@ -22,6 +23,9 @@ public class TeacherServiceImpl implements TeacherService {
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	RoleRepo roleRepo;
 
 	@Override
 	public boolean checkAlreadyExist(CreateTeacherForm createTeacherForm) {
@@ -40,12 +44,19 @@ public class TeacherServiceImpl implements TeacherService {
 			user.setUsername(createTeacherForm.getEmail());
 			user.setUserType(UserType.TEACHER.name());
 			setSectionAndClassDetails(user, createTeacherForm);
-			Set<Role> roles = new HashSet<>();
-			Role role = new Role();
-			role.setDescription("TEACHER role for the TEACHER");
-			role.setName(com.school.portal.enums.Role.TEACHER.name());
-			roles.add(role);
-			user.setRoles(roles);
+			
+			Set<Role> roleAssignToBeUser = new HashSet<>();
+			Role role = roleRepo.findByName(com.school.portal.enums.Role.TEACHER.name());
+			roleAssignToBeUser.add(role);
+			user.setRoles(roleAssignToBeUser);
+			
+			
+//			Set<Role> roles = new HashSet<>();
+//			Role role = new Role();
+//			role.setDescription("TEACHER role for the TEACHER");
+//			role.setName(com.school.portal.enums.Role.TEACHER.name());
+//			roles.add(role);
+//			user.setRoles(roles);
 			user = userRepo.save(user);
 			return user;
 		} catch (Exception e) {
