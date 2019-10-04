@@ -21,6 +21,7 @@ import com.school.portal.enums.ResponseCode;
 import com.school.portal.enums.Role;
 import com.school.portal.service.RoleService;
 import com.school.portal.service.UserService;
+import com.school.portal.utils.LoggedInUserUtil;
 import com.school.portal.utils.ResponseHandler;
 
 import io.swagger.annotations.Api;
@@ -36,6 +37,9 @@ public class RoleController {
 
 	@Autowired
 	RoleService roleService;
+
+	@Autowired
+	LoggedInUserUtil logedInUserUtil;
 
 	@PutMapping(value = "/assignOrRemoveRole")
 	@PreAuthorize("hasRole('ADMIN')")
@@ -67,6 +71,9 @@ public class RoleController {
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Object> addRoleInApplication(@RequestHeader("Authorization") String authorization,
 			@NotBlank(message = "roleName is null") @RequestParam("roleName") Role roleName, String roleDesc) {
+
+		String userEmail = logedInUserUtil.getLoggedInUserName();
+
 		boolean isValid = roleService.checkRole(roleName);
 		if (isValid) {
 			return ResponseHandler.response(HttpStatus.BAD_REQUEST, true, "Role Already Added", ErrorCode.ERROR,
