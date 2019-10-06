@@ -1,5 +1,6 @@
 package com.school.portal.domain;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -59,6 +60,12 @@ public class User {
 
 	@Column
 	private int failureLoginCount = 0;
+
+	@Column
+	private LocalDateTime createdAt = LocalDateTime.now();
+
+	@Column
+	private LocalDateTime updatedAt;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "USER_ROLES", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = {
@@ -191,6 +198,22 @@ public class User {
 
 	public void setFailureLoginCount(int failureLoginCount) {
 		this.failureLoginCount = failureLoginCount;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.school.portal.service;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -100,11 +101,13 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 		if (loginAttempt == LoginAttempt.SUCCESS) {
 			if (attemptedLoginCount != 0) {
 				loginUser.setFailureLoginCount(0);
+				loginUser.setUpdatedAt(LocalDateTime.now());
 			}
 		}
 		if (loginAttempt == LoginAttempt.FAILURE) {
 			if (attemptedLoginCount >= countSetByAdmin) {
 				loginUser.setBlocked(true);
+				loginUser.setUpdatedAt(LocalDateTime.now());
 			} else {
 				loginUser.setFailureLoginCount(attemptedLoginCount++);
 			}
