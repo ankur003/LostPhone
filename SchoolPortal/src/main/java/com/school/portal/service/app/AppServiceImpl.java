@@ -29,4 +29,13 @@ public class AppServiceImpl implements AppService {
 		}
 		return null;
 	}
+
+	@Override
+	public int getLoginCount() {
+		LoginCountConfig appCofing = appConfigRepo.findByIsLoginCountActive(true);
+		if (appCofing != null) {
+			return appCofing.getLoginCount();
+		}
+		return 0;
+	}
 }

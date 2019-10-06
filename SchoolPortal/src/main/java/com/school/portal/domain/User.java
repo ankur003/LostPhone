@@ -1,4 +1,4 @@
-	package com.school.portal.domain;
+package com.school.portal.domain;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -53,6 +53,12 @@ public class User {
 
 	@Column
 	private boolean isActive = true;
+
+	@Column
+	private boolean isBlocked = false;
+
+	@Column
+	private int failureLoginCount = 0;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "USER_ROLES", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = {
@@ -169,6 +175,22 @@ public class User {
 
 	public void setClassNames(Set<ClassNames> classNames) {
 		this.classNames = classNames;
+	}
+
+	public boolean isBlocked() {
+		return isBlocked;
+	}
+
+	public void setBlocked(boolean isBlocked) {
+		this.isBlocked = isBlocked;
+	}
+
+	public int getFailureLoginCount() {
+		return failureLoginCount;
+	}
+
+	public void setFailureLoginCount(int failureLoginCount) {
+		this.failureLoginCount = failureLoginCount;
 	}
 
 }

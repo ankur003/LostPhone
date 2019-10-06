@@ -14,13 +14,18 @@ import org.springframework.stereotype.Service;
 
 import com.school.portal.domain.User;
 import com.school.portal.dto.LoginUser;
+import com.school.portal.enums.LoginAttempt;
 import com.school.portal.repo.UserRepo;
+import com.school.portal.service.app.AppService;
 
 @Service(value = "userService")
 public class UserServiceImpl implements UserDetailsService, UserService {
 
 	@Autowired
 	UserRepo userRepo;
+
+	@Autowired
+	AppService appService;
 
 	@Autowired
 	private BCryptPasswordEncoder encoder;
@@ -80,5 +85,35 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public int checkAndUpdateLoginAtemptCount(User loginUser, LoginAttempt loginAttempt) {
+		if (loginUser == null) {
+			return 0;
+		}
+		int countSetByAdmin = getLoginAtemptCountSetByAdmin();
+		if (countSetByAdmin == 0) {
+			return countSetByAdmin;
+		}
+		int attemptedLoginCount = loginUser.getFailureLoginCount();
+		if (loginAttempt == LoginAttempt.SUCCESS) {
+			if (attemptedLoginCount != 0) {
+				loginUser.setFailureLoginCount(0);
+			}
+		}
+		if (loginAttempt == LoginAttempt.FAILURE) {
+			if (attemptedLoginCount >= countSetByAdmin) {
+				loginUser.setBlocked(true);
+			} else {
+				loginUser.setFailureLoginCount(attemptedLoginCount++);
+			}
+		}
+		userRepo.save(loginUser);
+		return countSetByAdmin;
+	}
+
+	private int getLoginAtemptCountSetByAdmin() {
+		return appService.getLoginCount();
 	}
 }

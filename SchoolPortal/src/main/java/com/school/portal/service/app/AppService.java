@@ -6,4 +6,6 @@ public interface AppService {
 
 	LoginCountConfig updateLoginCount(Integer loginCount, boolean isLoginCountActive);
 
+	int getLoginCount();
+
 }
