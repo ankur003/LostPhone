@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import com.school.portal.domain.Role;
 import com.school.portal.domain.User;
+import com.school.portal.enums.RoleEum;
 import com.school.portal.enums.UserType;
 import com.school.portal.repo.UserRepo;
 
@@ -34,11 +35,11 @@ public class ApplicationConfig {
 			Set<Role> roles = new HashSet<>();
 			Role role = new Role();
 			role.setDescription("Admin role for the principle");
-			role.setName(com.school.portal.enums.RoleEum.ADMIN.name());
+			role.setName(RoleEum.ADMIN.name());
 
 			Role role1 = new Role();
 			role1.setDescription("Admin role for the principle");
-			role1.setName(com.school.portal.enums.RoleEum.STUDENT.name());
+			role1.setName(RoleEum.STUDENT.name());
 
 			roles.add(role1);
 			roles.add(role);

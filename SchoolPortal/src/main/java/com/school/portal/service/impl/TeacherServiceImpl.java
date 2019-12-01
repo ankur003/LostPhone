@@ -11,6 +11,7 @@ import com.school.portal.domain.Role;
 import com.school.portal.domain.SectionNames;
 import com.school.portal.domain.User;
 import com.school.portal.dto.CreateTeacherForm;
+import com.school.portal.enums.RoleEum;
 import com.school.portal.enums.UserType;
 import com.school.portal.repo.RoleRepo;
 import com.school.portal.repo.UserRepo;
@@ -48,7 +49,7 @@ public class TeacherServiceImpl implements TeacherService {
 			setSectionAndClassDetails(user, createTeacherForm);
 			
 			Set<Role> roleAssignToBeUser = new HashSet<>();
-			Role role = roleRepo.findByName(com.school.portal.enums.RoleEum.TEACHER.name());
+			Role role = roleRepo.findByName(RoleEum.TEACHER.name());
 			roleAssignToBeUser.add(role);
 			user.setRoles(roleAssignToBeUser);
 			
