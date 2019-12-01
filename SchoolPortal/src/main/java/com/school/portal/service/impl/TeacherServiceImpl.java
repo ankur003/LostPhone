@@ -1,4 +1,4 @@
-package com.school.portal.service;
+package com.school.portal.service.impl;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,6 +14,8 @@ import com.school.portal.dto.CreateTeacherForm;
 import com.school.portal.enums.UserType;
 import com.school.portal.repo.RoleRepo;
 import com.school.portal.repo.UserRepo;
+import com.school.portal.service.TeacherService;
+import com.school.portal.service.UserService;
 
 @Service
 public class TeacherServiceImpl implements TeacherService {
@@ -46,15 +48,15 @@ public class TeacherServiceImpl implements TeacherService {
 			setSectionAndClassDetails(user, createTeacherForm);
 			
 			Set<Role> roleAssignToBeUser = new HashSet<>();
-			Role role = roleRepo.findByName(com.school.portal.enums.Role.TEACHER.name());
+			Role role = roleRepo.findByName(com.school.portal.enums.RoleEum.TEACHER.name());
 			roleAssignToBeUser.add(role);
 			user.setRoles(roleAssignToBeUser);
 			
 			
-//			Set<Role> roles = new HashSet<>();
-//			Role role = new Role();
+//			Set<RoleEum> roles = new HashSet<>();
+//			RoleEum role = new RoleEum();
 //			role.setDescription("TEACHER role for the TEACHER");
-//			role.setName(com.school.portal.enums.Role.TEACHER.name());
+//			role.setName(com.school.portal.enums.RoleEum.TEACHER.name());
 //			roles.add(role);
 //			user.setRoles(roles);
 			user = userRepo.save(user);

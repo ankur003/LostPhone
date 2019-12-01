@@ -19,7 +19,7 @@ import com.school.portal.domain.User;
 import com.school.portal.dto.CreateTeacherForm;
 import com.school.portal.enums.ErrorCode;
 import com.school.portal.enums.ResponseCode;
-import com.school.portal.enums.Role;
+import com.school.portal.enums.RoleEum;
 import com.school.portal.service.RoleService;
 import com.school.portal.service.TeacherService;
 import com.school.portal.utils.ErrorCollectionUtil;
@@ -56,9 +56,9 @@ public class TeacherController {
 					ResponseCode.ACKNOWLEDGE_WITHOUT_RESPONSE_OBJECT);
 		}
 
-		boolean isRoleExist = roleService.checkRole(Role.TEACHER);
+		boolean isRoleExist = roleService.checkRole(RoleEum.TEACHER);
 		if (!isRoleExist) {
-			return ResponseHandler.response(HttpStatus.BAD_REQUEST, true, "Create Teacher Role first", ErrorCode.ERROR,
+			return ResponseHandler.response(HttpStatus.BAD_REQUEST, true, "Create Teacher RoleEum first", ErrorCode.ERROR,
 					ResponseCode.ACKNOWLEDGE_WITHOUT_RESPONSE_OBJECT);
 		}
 		User teacher = teacherService.createTeacher(createTeacherForm);

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.school.portal.domain.User;
 import com.school.portal.enums.ErrorCode;
 import com.school.portal.enums.ResponseCode;
-import com.school.portal.enums.Role;
+import com.school.portal.enums.RoleEum;
 import com.school.portal.service.RoleService;
 import com.school.portal.service.UserService;
 import com.school.portal.utils.LoggedInUserUtil;
@@ -45,7 +45,7 @@ public class RoleController {
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Object> assignRole(@RequestHeader("Authorization") String authorization,
 			@NotBlank(message = "userEmail is null") @RequestParam("userEmail") String userEmail,
-			@NotBlank(message = "roleName is null") @RequestParam("roleName") Role roleName,
+			@NotBlank(message = "roleName is null") @RequestParam("roleName") RoleEum roleName,
 			@NotBlank(message = "isAssign is null") @RequestParam("isAssign") Boolean isAssign) {
 
 		User user = userService.getUser(userEmail);
@@ -55,28 +55,26 @@ public class RoleController {
 		}
 		boolean isValid = roleService.checkRole(roleName);
 		if (!isValid) {
-			return ResponseHandler.response(HttpStatus.BAD_REQUEST, true, "Add Role First into application ",
+			return ResponseHandler.response(HttpStatus.BAD_REQUEST, true, "Add RoleEum First into application ",
 					ErrorCode.ERROR, ResponseCode.ACKNOWLEDGE);
 		}
 		boolean isDone = userService.assignOrRemoveRole(user, roleName.name(), isAssign);
 		if (isDone) {
-			return ResponseHandler.response(HttpStatus.OK, false, "Role Updated", ErrorCode.OK,
+			return ResponseHandler.response(HttpStatus.OK, false, "RoleEum Updated", ErrorCode.OK,
 					ResponseCode.ACKNOWLEDGE);
 		}
-		return ResponseHandler.response(HttpStatus.INTERNAL_SERVER_ERROR, true, "Role Already Assigned",
+		return ResponseHandler.response(HttpStatus.INTERNAL_SERVER_ERROR, true, "RoleEum Already Assigned",
 				ErrorCode.ERROR, ResponseCode.ACKNOWLEDGE);
 	}
 
 	@PutMapping(value = "/addRole")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Object> addRoleInApplication(@RequestHeader("Authorization") String authorization,
-			@NotBlank(message = "roleName is null") @RequestParam("roleName") Role roleName, String roleDesc) {
-
-		String userEmail = logedInUserUtil.getLoggedInUserName();
+			@NotBlank(message = "roleName is null") @RequestParam("roleName") RoleEum roleName, String roleDesc) {
 
 		boolean isValid = roleService.checkRole(roleName);
 		if (isValid) {
-			return ResponseHandler.response(HttpStatus.BAD_REQUEST, true, "Role Already Added", ErrorCode.ERROR,
+			return ResponseHandler.response(HttpStatus.BAD_REQUEST, true, "RoleEum Already Added", ErrorCode.ERROR,
 					ResponseCode.ACKNOWLEDGE);
 		}
 		com.school.portal.domain.Role role = roleService.addRole(roleName, roleDesc);
@@ -84,7 +82,7 @@ public class RoleController {
 			return ResponseHandler.response(HttpStatus.INTERNAL_SERVER_ERROR, true, "Some Thing went wrong",
 					ErrorCode.ERROR, ResponseCode.ACKNOWLEDGE);
 		}
-		return ResponseHandler.response(HttpStatus.OK, false, "Role Added", ErrorCode.OK, ResponseCode.ACKNOWLEDGE,
+		return ResponseHandler.response(HttpStatus.OK, false, "RoleEum Added", ErrorCode.OK, ResponseCode.ACKNOWLEDGE,
 				role);
 	}
 }

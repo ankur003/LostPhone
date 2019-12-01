@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.school.portal.domain.app.LoginCountConfig;
+import com.school.portal.domain.app.LoginCount;
 import com.school.portal.enums.ErrorCode;
 import com.school.portal.enums.ResponseCode;
 import com.school.portal.service.app.AppService;
@@ -30,7 +30,7 @@ public class AppController {
 	public ResponseEntity<Object> addLoginCount(@RequestParam("loginCount") Integer loginCount,
 			@RequestParam("isLoginCountActive") boolean isLoginCountActive) {
 
-		LoginCountConfig appConfig = appService.updateLoginCount(loginCount, isLoginCountActive);
+		LoginCount appConfig = appService.updateLoginCount(loginCount, isLoginCountActive);
 		if (appConfig == null) {
 			return ResponseHandler.response(HttpStatus.INTERNAL_SERVER_ERROR, true, "To many Record Found ",
 					ErrorCode.ERROR, ResponseCode.ACKNOWLEDGE_WITHOUT_RESPONSE_OBJECT);

@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.school.portal.domain.app.LoginCountConfig;
+import com.school.portal.domain.app.LoginCount;
 import com.school.portal.repo.app.AppConfigRepo;
 
 @Service
@@ -16,10 +16,10 @@ public class AppServiceImpl implements AppService {
 	AppConfigRepo appConfigRepo;
 
 	@Override
-	public LoginCountConfig updateLoginCount(Integer loginCount, boolean isLoginCountActive) {
-		List<LoginCountConfig> appConfig = appConfigRepo.findAll();
+	public LoginCount updateLoginCount(Integer loginCount, boolean isLoginCountActive) {
+		List<LoginCount> appConfig = appConfigRepo.findAll();
 		if (appConfig.size() == 1) {
-			LoginCountConfig details = appConfig.get(0);
+			LoginCount details = appConfig.get(0);
 			details.setCreatedAt(LocalDateTime.now());
 			if (loginCount != null && loginCount > 0) {
 				details.setLoginCount(loginCount);
@@ -32,7 +32,7 @@ public class AppServiceImpl implements AppService {
 
 	@Override
 	public int getLoginCount() {
-		LoginCountConfig appCofing = appConfigRepo.findByIsLoginCountActive(true);
+		LoginCount appCofing = appConfigRepo.findByIsLoginCountActive(true);
 		if (appCofing != null) {
 			return appCofing.getLoginCount();
 		}

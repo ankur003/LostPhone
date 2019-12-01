@@ -34,11 +34,11 @@ public class ApplicationConfig {
 			Set<Role> roles = new HashSet<>();
 			Role role = new Role();
 			role.setDescription("Admin role for the principle");
-			role.setName(com.school.portal.enums.Role.ADMIN.name());
+			role.setName(com.school.portal.enums.RoleEum.ADMIN.name());
 
 			Role role1 = new Role();
 			role1.setDescription("Admin role for the principle");
-			role1.setName(com.school.portal.enums.Role.STUDENT.name());
+			role1.setName(com.school.portal.enums.RoleEum.STUDENT.name());
 
 			roles.add(role1);
 			roles.add(role);

@@ -1,4 +1,4 @@
-package com.school.portal.service;
+package com.school.portal.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -17,6 +17,7 @@ import com.school.portal.domain.User;
 import com.school.portal.dto.LoginUser;
 import com.school.portal.enums.LoginAttempt;
 import com.school.portal.repo.UserRepo;
+import com.school.portal.service.UserService;
 import com.school.portal.service.app.AppService;
 
 @Service(value = "userService")

@@ -1,5 +1,5 @@
 package com.school.portal.enums;
 
-public enum Role {
+public enum RoleEum {
 	ADMIN, TEACHER, STUDENT
 }

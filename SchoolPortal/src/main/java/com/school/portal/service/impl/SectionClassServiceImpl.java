@@ -1,4 +1,4 @@
-package com.school.portal.service;
+package com.school.portal.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,6 +13,7 @@ import com.school.portal.domain.SectionMaster;
 import com.school.portal.dto.SectionClassDto;
 import com.school.portal.repo.ClassMasterRepo;
 import com.school.portal.repo.SectionRepo;
+import com.school.portal.service.SectionClassService;
 
 @Service
 public class SectionClassServiceImpl implements SectionClassService {

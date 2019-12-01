@@ -1,4 +1,4 @@
-package com.school.portal.service;
+package com.school.portal.service.impl;
 
 import static com.school.portal.constants.JwtConstants.TOKEN_PREFIX;
 
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.school.portal.dto.AuthToken;
 import com.school.portal.dto.LoginUser;
 import com.school.portal.security.TokenProvider;
+import com.school.portal.service.AuthenticationService;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
