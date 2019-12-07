@@ -40,23 +40,18 @@ public class LoginController {
 	public ResponseEntity<Object> login(@RequestBody LoginUser loginUser) {
 		User user = userService.checkCredaintials(loginUser);
 		if (Objects.nonNull(user) && user.isBlocked()) {
-			return ResponseHandler.response(HttpStatus.BAD_REQUEST, true,
-					"User is blocked due to too many failure login atempt.", ErrorCode.ERROR,
+			return ResponseHandler.response(HttpStatus.BAD_REQUEST, true, "User is blocked due to too many failure login atempt.", ErrorCode.ERROR,
 					ResponseCode.ACKNOWLEDGE_WITHOUT_RESPONSE_OBJECT);
 		}
-
 		if (Objects.isNull(user)) {
-			int loginCountSetByAdmin = userService.checkAndUpdateLoginAtemptCount(
-					userService.getUser(loginUser.getUsername().trim()), LoginAttempt.FAILURE);
+			int loginCountSetByAdmin = userService.checkAndUpdateLoginAtemptCount(userService.getUser(loginUser.getUsername().trim()), LoginAttempt.FAILURE);
 			return ResponseHandler.response(HttpStatus.BAD_REQUEST, true,
-					loginCountSetByAdmin == 0 ? "Incorrect Login Details"
-							: "Incorrect Login Details ::: Max Count " + loginCountSetByAdmin,
+					loginCountSetByAdmin == 0 ? "Incorrect Login Details": "Incorrect Login Details ::: Max Count " + loginCountSetByAdmin,
 					ErrorCode.ERROR, ResponseCode.ACKNOWLEDGE_WITHOUT_RESPONSE_OBJECT);
 		}
 		userService.checkAndUpdateLoginAtemptCount(user, LoginAttempt.SUCCESS);
 		String jwtToken = authenticationService.login(loginUser);
 		Map<String, Object> map = ResponseBuildUtility.buildLoginResponse(jwtToken, user);
-		return ResponseHandler.response(HttpStatus.OK, false, "Login Success", ErrorCode.OK, ResponseCode.ACKNOWLEDGE,
-				map);
+		return ResponseHandler.response(HttpStatus.OK, false, "Login Success", ErrorCode.OK, ResponseCode.ACKNOWLEDGE,map);
 	}
 }
