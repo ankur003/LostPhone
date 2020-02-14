@@ -1,9 +1,4 @@
 # LostPhone
-/*******************************************************************************
- * Copyright 2020, Techblue Software Pvt Ltd. All Rights Reserved.
- * No part of this content may be used without Techblue's express consent.
- ******************************************************************************/
-package uk.co.propco.api;
 
 import java.util.ArrayList;
 import java.util.Calendar;
