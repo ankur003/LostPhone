@@ -73,7 +73,7 @@ public class ResponseBuildUtility {
 		Map<String, Object> map = new HashMap<>();
 		map.put("token", jwtToken);
 		map.put("userName", user.getUsername());
-		map.put(user.getUserType(), user.getUserType());
+		map.put("userType", user.getUserType());
 		return map;
 	}
 }
