@@ -1,25 +1,35 @@
 package com.school.portal.domain.app;
 
 import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class LoginCount {
+public class Holidays {
 
 	@JsonIgnore
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	private Integer loginCount;
+	@NotNull
+	@Column(unique = true)
+	private Date holidayDate;
 
-	private boolean isLoginCountActive = false;
+	private String holidayDescription;
+
+	@NotNull
+	@Column(unique = true)
+	private String holidayUuid = UUID.randomUUID().toString() + new Date().getTime();
 
 	private LocalDateTime createdAt;
 
@@ -33,20 +43,20 @@ public class LoginCount {
 		this.id = id;
 	}
 
-	public Integer getLoginCount() {
-		return loginCount;
+	public Date getHolidayDate() {
+		return holidayDate;
 	}
 
-	public void setLoginCount(Integer loginCount) {
-		this.loginCount = loginCount;
+	public void setHolidayDate(Date holidayDate) {
+		this.holidayDate = holidayDate;
 	}
 
-	public boolean isLoginCountActive() {
-		return isLoginCountActive;
+	public String getHolidayDescription() {
+		return holidayDescription;
 	}
 
-	public void setLoginCountActive(boolean isLoginCountActive) {
-		this.isLoginCountActive = isLoginCountActive;
+	public void setHolidayDescription(String holidayDescription) {
+		this.holidayDescription = holidayDescription;
 	}
 
 	public LocalDateTime getCreatedAt() {
@@ -63,6 +73,14 @@ public class LoginCount {
 
 	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	public String getHolidayUuid() {
+		return holidayUuid;
+	}
+
+	public void setHolidayUuid(String holidayUuid) {
+		this.holidayUuid = holidayUuid;
 	}
 
 }

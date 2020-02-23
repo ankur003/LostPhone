@@ -1,14 +1,21 @@
 package com.school.portal.controller.app;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.school.portal.domain.app.Holidays;
 import com.school.portal.domain.app.LoginCount;
 import com.school.portal.enums.ErrorCode;
 import com.school.portal.enums.ResponseCode;
@@ -24,19 +31,29 @@ import io.swagger.annotations.Api;
 public class AppController {
 
 	@Autowired
-	AppService appService;
+	private AppService appService;
 
-	@PostMapping(value = "/addLoginCount")
-	public ResponseEntity<Object> addLoginCount(@RequestParam("loginCount") Integer loginCount,
+	@PutMapping(value = "/loginCount")
+	public ResponseEntity<Object> addOrUpdateLoginCount(@RequestParam("loginCount") Integer loginCount,
 			@RequestParam("isLoginCountActive") boolean isLoginCountActive) {
-
 		LoginCount appConfig = appService.updateLoginCount(loginCount, isLoginCountActive);
-		if (appConfig == null) {
-			return ResponseHandler.response(HttpStatus.INTERNAL_SERVER_ERROR, true, "To many Record Found ",
-					ErrorCode.ERROR, ResponseCode.ACKNOWLEDGE_WITHOUT_RESPONSE_OBJECT);
-		}
-		return ResponseHandler.response(HttpStatus.OK, true, "Login Count Updated", ErrorCode.OK,
+		return ResponseHandler.response(HttpStatus.OK, false, "Login Count Updated", ErrorCode.OK,
 				ResponseCode.ACKNOWLEDGE, appConfig);
-
 	}
+
+	@PostMapping(value = "/add/holidays")
+	public ResponseEntity<Object> addHolidays(@RequestBody HashMap<String, String> holiDayMap) {
+		if (holiDayMap == null || holiDayMap.isEmpty()) {
+			return ResponseHandler.response(HttpStatus.BAD_REQUEST, true, "No Data to add", ErrorCode.ERROR,
+					ResponseCode.ACKNOWLEDGE_WITHOUT_RESPONSE_OBJECT);
+		}
+		List<Holidays> addedHolidaysList = appService.addHolidays(holiDayMap);
+		if (addedHolidaysList == null) {
+			return ResponseHandler.response(HttpStatus.BAD_REQUEST, true, "Data already exist", ErrorCode.ERROR,
+					ResponseCode.ACKNOWLEDGE_WITHOUT_RESPONSE_OBJECT);
+		}
+		return ResponseHandler.response(HttpStatus.OK, false, "Holidays Added", ErrorCode.OK, ResponseCode.ACKNOWLEDGE,
+				addedHolidaysList);
+	}
+
 }
