@@ -5,11 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
-import com.school.portal.domain.base.AbstractTemporalDomain;
+import com.school.portal.domain.base.BaseDomain;
 import com.school.portal.enums.RoleEum;
 
 @Entity
-public class Role extends AbstractTemporalDomain {
+public class Role extends BaseDomain {
 
 	private static final long serialVersionUID = 7189961001551880900L;
 

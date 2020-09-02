@@ -99,19 +99,19 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 		if (countSetByAdmin == 0) {
 			return countSetByAdmin;
 		}
-		int attemptedLoginCount = loginUser.getFailureLoginCount();
+		int attemptedLoginCount = loginUser.getFailureLoginAttempt();
 		if (loginAttempt == LoginAttempt.SUCCESS) {
 			if (attemptedLoginCount != 0) {
-				loginUser.setFailureLoginCount(0);
+				loginUser.setFailureLoginAttempt(0);
 				loginUser.setUpdatedAt(LocalDateTime.now());
 			}
 		}
 		if (loginAttempt == LoginAttempt.FAILURE) {
 			if (attemptedLoginCount >= countSetByAdmin) {
-				loginUser.setBlocked(true);
+				loginUser.setIsBlocked(true);
 				loginUser.setUpdatedAt(LocalDateTime.now());
 			} else {
-				loginUser.setFailureLoginCount(attemptedLoginCount++);
+				loginUser.setFailureLoginAttempt(attemptedLoginCount++);
 			}
 		}
 		userRepo.save(loginUser);

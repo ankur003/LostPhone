@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -19,11 +18,11 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.school.portal.domain.base.AbstractTemporalDomain;
+import com.school.portal.domain.base.BaseDomain;
 import com.school.portal.enums.UserType;
 
 @Entity
-public class User extends AbstractTemporalDomain {
+public class User extends BaseDomain {
 
 	private static final long serialVersionUID = -1293783007980955204L;
 
@@ -49,20 +48,20 @@ public class User extends AbstractTemporalDomain {
 
 	private Boolean isBlocked;
 
-	private Integer failureLoginCount;
+	private Integer failureLoginAttempt;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "USER_ROLES", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "ROLE_ID") })
 	private Set<Role> roles = new HashSet<>();
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<AddressDetail> address = new ArrayList<>();
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL)
 	@JsonManagedReference
-	private Set<ClassDetail> classNames = new HashSet<>();
+	private List<UserClass> userClass = new ArrayList<>();
 
 	public String getUsername() {
 		return username;
@@ -78,14 +77,6 @@ public class User extends AbstractTemporalDomain {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public Set<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
 	}
 
 	public UserType getUserType() {
@@ -112,15 +103,11 @@ public class User extends AbstractTemporalDomain {
 		this.doj = doj;
 	}
 
-	public void setRollNo(Long rollNo) {
-		this.rollNo = rollNo;
-	}
-
-	public long getRollNo() {
+	public Long getRollNo() {
 		return rollNo;
 	}
 
-	public void setRollNo(long rollNo) {
+	public void setRollNo(Long rollNo) {
 		this.rollNo = rollNo;
 	}
 
@@ -132,20 +119,44 @@ public class User extends AbstractTemporalDomain {
 		this.name = name;
 	}
 
-	public boolean isAdmin() {
+	public Boolean getIsAdmin() {
 		return isAdmin;
 	}
 
-	public void setAdmin(boolean isAdmin) {
+	public void setIsAdmin(Boolean isAdmin) {
 		this.isAdmin = isAdmin;
 	}
 
-	public boolean isActive() {
+	public Boolean getIsActive() {
 		return isActive;
 	}
 
-	public void setActive(boolean isActive) {
+	public void setIsActive(Boolean isActive) {
 		this.isActive = isActive;
+	}
+
+	public Boolean getIsBlocked() {
+		return isBlocked;
+	}
+
+	public void setIsBlocked(Boolean isBlocked) {
+		this.isBlocked = isBlocked;
+	}
+
+	public Integer getFailureLoginAttempt() {
+		return failureLoginAttempt;
+	}
+
+	public void setFailureLoginAttempt(Integer failureLoginAttempt) {
+		this.failureLoginAttempt = failureLoginAttempt;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
 
 	public List<AddressDetail> getAddress() {
@@ -156,28 +167,12 @@ public class User extends AbstractTemporalDomain {
 		this.address = address;
 	}
 
-	public Set<ClassDetail> getClassNames() {
-		return classNames;
+	public List<UserClass> getUserClass() {
+		return userClass;
 	}
 
-	public void setClassNames(Set<ClassDetail> classNames) {
-		this.classNames = classNames;
-	}
-
-	public boolean isBlocked() {
-		return isBlocked;
-	}
-
-	public void setBlocked(boolean isBlocked) {
-		this.isBlocked = isBlocked;
-	}
-
-	public int getFailureLoginCount() {
-		return failureLoginCount;
-	}
-
-	public void setFailureLoginCount(int failureLoginCount) {
-		this.failureLoginCount = failureLoginCount;
+	public void setUserClass(List<UserClass> userClass) {
+		this.userClass = userClass;
 	}
 
 }

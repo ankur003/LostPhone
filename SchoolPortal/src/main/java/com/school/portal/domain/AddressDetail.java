@@ -4,10 +4,10 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.school.portal.domain.base.AbstractTemporalDomain;
+import com.school.portal.domain.base.BaseDomain;
 
 @Entity
-public class AddressDetail extends AbstractTemporalDomain{
+public class AddressDetail extends BaseDomain{
 
 	private static final long serialVersionUID = 7672013356112951122L;
 

@@ -10,17 +10,17 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.school.portal.domain.base.AbstractTemporalDomain;
+import com.school.portal.domain.base.BaseDomain;
 
 @Entity
-public class ClassMaster extends AbstractTemporalDomain implements Serializable {
+public class ClassMaster extends BaseDomain implements Serializable {
 
 	private static final long serialVersionUID = 613805964039887170L;
 
 	@Column(unique = true)
 	private String className;
 
-	@OneToMany(mappedBy = "classMaster", cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<SectionMaster> sectionMaster = new ArrayList<>();
 

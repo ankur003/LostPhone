@@ -60,8 +60,8 @@ public class ApplicationConfig {
 			admin.setDoj(LocalDate.now());
 			admin.setName("principle");
 			admin.setUserType(UserType.PRINCIPLE);
-			admin.setAdmin(true);
-			admin.setActive(true);
+			admin.setIsAdmin(true);
+			admin.setIsActive(true);
 			userRepo.save(admin);
 		}
 	}

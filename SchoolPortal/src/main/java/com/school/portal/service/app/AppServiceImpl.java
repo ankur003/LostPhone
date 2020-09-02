@@ -5,9 +5,10 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,9 +59,9 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public List<Holidays> addHolidays(HashMap<String, String> holiDayMap) {
+	public List<Holidays> addHolidays(Map<String, String> holiDayMap) {
 		List<Holidays> allHolidays = holidaysRepo.findAll();
-		if (allHolidays == null || allHolidays.isEmpty()) {
+		if (CollectionUtils.isEmpty(allHolidays)) {
 			List<Holidays> holidaysToBeSave = new ArrayList<>();
 			holiDayMap.forEach((holidayDate, holidayDescription) -> {
 				try {

@@ -3,23 +3,23 @@ package com.school.portal.domain;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
-import com.school.portal.domain.base.AbstractTemporalDomain;
+import com.school.portal.domain.base.BaseDomain;
 
 @Entity
-public class SectionNames extends AbstractTemporalDomain {
+public class UserSection extends BaseDomain {
 	
 	private static final long serialVersionUID = 6527180254199253076L;
 
 	@ManyToOne
-	private ClassDetail classNames;
+	private UserClass classNames;
 
 	private String sectionName;
 
-	public ClassDetail getClassNames() {
+	public UserClass getClassNames() {
 		return classNames;
 	}
 
-	public void setClassNames(ClassDetail classNames) {
+	public void setClassNames(UserClass classNames) {
 		this.classNames = classNames;
 	}
 

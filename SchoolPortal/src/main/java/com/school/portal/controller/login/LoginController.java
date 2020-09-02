@@ -38,7 +38,7 @@ public class LoginController {
 	@PostMapping(value = "/login")
 	public ResponseEntity<Object> login(@RequestBody LoginUser loginUser) {
 		User user = userService.checkCredaintials(loginUser);
-		if (Objects.nonNull(user) && user.isBlocked()) {
+		if (Objects.nonNull(user) && user.getIsBlocked()) {
 			return ResponseBuilder.response(HttpStatus.BAD_REQUEST, true, "User is blocked due to too many failure login atempt.", ErrorCode.ERROR,
 					ResponseCode.ACKNOWLEDGE_WITHOUT_RESPONSE_OBJECT);
 		}

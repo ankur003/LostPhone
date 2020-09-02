@@ -7,10 +7,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
-import com.school.portal.domain.base.AbstractTemporalDomain;
+import com.school.portal.domain.base.BaseDomain;
 
 @Entity
-public class Holidays extends AbstractTemporalDomain{
+public class Holidays extends BaseDomain{
 
 	private static final long serialVersionUID = 2555582299415938793L;
 

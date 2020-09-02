@@ -1,7 +1,7 @@
 package com.school.portal.controller.app;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,7 +41,7 @@ public class AppController {
 	}
 
 	@PostMapping(value = "/add/holidays")
-	public ResponseEntity<Object> addHolidays(@RequestBody HashMap<String, String> holiDayMap) {
+	public ResponseEntity<Object> addHolidays(@RequestBody Map<String, String> holiDayMap) {
 		if (holiDayMap == null || holiDayMap.isEmpty()) {
 			return ResponseBuilder.response(HttpStatus.BAD_REQUEST, true, "No Data to add", ErrorCode.ERROR,
 					ResponseCode.ACKNOWLEDGE_WITHOUT_RESPONSE_OBJECT);

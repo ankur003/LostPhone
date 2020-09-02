@@ -1,7 +1,7 @@
 package com.school.portal.service.app;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.school.portal.domain.app.Holidays;
 import com.school.portal.domain.app.LoginCount;
@@ -12,6 +12,6 @@ public interface AppService {
 
 	int getLoginCount();
 
-	List<Holidays> addHolidays(HashMap<String, String> holiDayMap);
+	List<Holidays> addHolidays(Map<String, String> holiDayMap);
 
 }
