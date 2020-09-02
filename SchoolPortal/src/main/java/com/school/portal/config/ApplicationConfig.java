@@ -52,7 +52,7 @@ public class ApplicationConfig {
 			Role role1 = new Role();
 			role1.setDescription("Admin role for the principle");
 			role1.setName(RoleEum.STUDENT);
-
+ 
 			roles.add(role1);
 			roles.add(role);
 			admin.setRoles(roles);
