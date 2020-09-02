@@ -20,12 +20,12 @@ public class ClassMaster extends BaseDomain implements Serializable {
 	@Column(unique = true)
 	private String className;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "classMaster", cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<SectionMaster> sectionMaster = new ArrayList<>();
 
 	private Boolean isActive = true;
-	
+
 	public String getClassName() {
 		return className;
 	}

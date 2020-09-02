@@ -55,11 +55,11 @@ public class User extends BaseDomain {
 			@JoinColumn(name = "ROLE_ID") })
 	private Set<Role> roles = new HashSet<>();
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<AddressDetail> address = new ArrayList<>();
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<UserClass> userClass = new ArrayList<>();
 

@@ -21,7 +21,7 @@ public class UserClass extends BaseDomain {
 
 	private String className;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "userClass", cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<UserSection> userSection = new ArrayList<>();
 
