@@ -1,7 +1,7 @@
 package com.school.portal.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,12 +34,12 @@ public class SectionClassServiceImpl implements SectionClassService {
 		if (Objects.isNull(classMaster)) {
 			classMaster = new ClassMaster();
 			classMaster.setClassName(sectionClassDto.getClassName());
-			classMaster.setCreatedAt(new Date());
+			classMaster.setCreatedAt(LocalDateTime.now());
 			List<SectionMaster> list = new ArrayList<>();
 			if (sectionClassDto.getSectionNames() != null && !sectionClassDto.getSectionNames().isEmpty()) {
 				for (String sectionName : sectionClassDto.getSectionNames()) {
 					SectionMaster newSectionMaster = new SectionMaster();
-					newSectionMaster.setCreatedAt(new Date());
+					newSectionMaster.setCreatedAt(LocalDateTime.now());
 					newSectionMaster.setIsActive(true);
 					newSectionMaster.setSectionName(sectionName);
 					newSectionMaster.setClassMaster(classMaster);
@@ -55,7 +55,7 @@ public class SectionClassServiceImpl implements SectionClassService {
 				if (Objects.isNull(sectionMaster)) {
 					sectionMaster = new SectionMaster();
 					sectionMaster.setClassMaster(classMaster);
-					sectionMaster.setCreatedAt(new Date());
+					sectionMaster.setCreatedAt(LocalDateTime.now());
 					sectionMaster.setIsActive(true);
 					sectionMaster.setSectionName(sectionName);
 					sectionRepo.save(sectionMaster);

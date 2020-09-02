@@ -1,24 +1,15 @@
 package com.school.portal.domain;
 
-import java.io.Serializable;
-import java.util.Date;
-
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.school.portal.domain.base.AbstractTemporalDomain;
 
 @Entity
-public class SectionMaster implements Serializable {
+public class SectionMaster extends AbstractTemporalDomain {
 
 	private static final long serialVersionUID = -8670346331314576431L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long sectionId;
 
 	private String sectionName;
 
@@ -26,23 +17,7 @@ public class SectionMaster implements Serializable {
 	@JsonBackReference
 	private ClassMaster classMaster;
 
-	private boolean isActive = true;
-
-	private String createdOn;
-
-	private Date createdAt;
-
-	private Date updatedAt;
-
-	private Date deletedAt;
-
-	public Long getSectionId() {
-		return sectionId;
-	}
-
-	public void setSectionId(Long sectionId) {
-		this.sectionId = sectionId;
-	}
+	private Boolean isActive = true;
 
 	public String getSectionName() {
 		return sectionName;
@@ -58,38 +33,6 @@ public class SectionMaster implements Serializable {
 
 	public void setIsActive(boolean isActive) {
 		this.isActive = isActive;
-	}
-
-	public String getCreatedOn() {
-		return createdOn;
-	}
-
-	public void setCreatedOn(String createdOn) {
-		this.createdOn = createdOn;
-	}
-
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public Date getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-
-	public Date getDeletedAt() {
-		return deletedAt;
-	}
-
-	public void setDeletedAt(Date deletedAt) {
-		this.deletedAt = deletedAt;
 	}
 
 	public ClassMaster getClassMaster() {

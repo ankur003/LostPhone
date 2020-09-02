@@ -1,21 +1,15 @@
 package com.school.portal.domain;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.school.portal.domain.base.AbstractTemporalDomain;
 
 @Entity
-public class Address {
+public class AddressDetail extends AbstractTemporalDomain{
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private static final long serialVersionUID = 7672013356112951122L;
 
 	@ManyToOne
 	@JsonBackReference
@@ -25,25 +19,15 @@ public class Address {
 
 	private String address;
 
-	private String State;
+	private String state;
 
 	private String post;
 
-	private String District;
+	private String district;
 
 	private String addressType;
 
-	private Date createdAt;
-
-	private boolean isActive;
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
+	private Boolean isActive;
 
 	public User getUser() {
 		return user;
@@ -69,14 +53,6 @@ public class Address {
 		this.address = address;
 	}
 
-	public String getState() {
-		return State;
-	}
-
-	public void setState(String state) {
-		State = state;
-	}
-
 	public String getPost() {
 		return post;
 	}
@@ -85,13 +61,6 @@ public class Address {
 		this.post = post;
 	}
 
-	public String getDistrict() {
-		return District;
-	}
-
-	public void setDistrict(String district) {
-		District = district;
-	}
 
 	public String getAddressType() {
 		return addressType;
@@ -99,14 +68,6 @@ public class Address {
 
 	public void setAddressType(String addressType) {
 		this.addressType = addressType;
-	}
-
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
 	}
 
 	public boolean isActive() {
@@ -117,4 +78,20 @@ public class Address {
 		this.isActive = isActive;
 	}
 
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getDistrict() {
+		return district;
+	}
+
+	public void setDistrict(String district) {
+		this.district = district;
+	}
+	
 }

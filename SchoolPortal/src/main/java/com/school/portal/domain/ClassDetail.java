@@ -5,20 +5,16 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.school.portal.domain.base.AbstractTemporalDomain;
 
 @Entity
-public class ClassNames {
+public class ClassDetail extends AbstractTemporalDomain {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private static final long serialVersionUID = 1370919601175922061L;
 
 	@ManyToOne
 	private User user;
@@ -28,14 +24,6 @@ public class ClassNames {
 	@OneToMany(mappedBy = "classNames", cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private Set<SectionNames> sectionNames = new HashSet<>();
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
 
 	public User getUser() {
 		return user;

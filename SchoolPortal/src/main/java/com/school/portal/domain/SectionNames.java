@@ -1,35 +1,25 @@
 package com.school.portal.domain;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.school.portal.domain.base.AbstractTemporalDomain;
+
 @Entity
-public class SectionNames {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+public class SectionNames extends AbstractTemporalDomain {
+	
+	private static final long serialVersionUID = 6527180254199253076L;
 
 	@ManyToOne
-	private ClassNames classNames;
+	private ClassDetail classNames;
 
 	private String sectionName;
 
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public ClassNames getClassNames() {
+	public ClassDetail getClassNames() {
 		return classNames;
 	}
 
-	public void setClassNames(ClassNames classNames) {
+	public void setClassNames(ClassDetail classNames) {
 		this.classNames = classNames;
 	}
 

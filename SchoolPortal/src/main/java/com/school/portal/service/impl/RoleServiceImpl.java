@@ -22,7 +22,7 @@ public class RoleServiceImpl implements RoleService {
 	public com.school.portal.domain.Role addRole(RoleEum roleName, String roleDesc) {
 		com.school.portal.domain.Role role = new com.school.portal.domain.Role();
 		role.setDescription(roleDesc == null ? "RoleEum Description" : roleDesc);
-		role.setName(roleName.name());
+		role.setName(roleName);
 		return roleRepo.save(role);
 	}
 }

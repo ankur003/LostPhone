@@ -1,6 +1,5 @@
 package com.school.portal.controller.app;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,7 +19,7 @@ import com.school.portal.domain.app.LoginCount;
 import com.school.portal.enums.ErrorCode;
 import com.school.portal.enums.ResponseCode;
 import com.school.portal.service.app.AppService;
-import com.school.portal.utils.ResponseHandler;
+import com.school.portal.utils.ResponseBuilder;
 
 import io.swagger.annotations.Api;
 
@@ -37,22 +36,22 @@ public class AppController {
 	public ResponseEntity<Object> addOrUpdateLoginCount(@RequestParam("loginCount") Integer loginCount,
 			@RequestParam("isLoginCountActive") boolean isLoginCountActive) {
 		LoginCount appConfig = appService.updateLoginCount(loginCount, isLoginCountActive);
-		return ResponseHandler.response(HttpStatus.OK, false, "Login Count Updated", ErrorCode.OK,
+		return ResponseBuilder.response(HttpStatus.OK, false, "Login Count Updated", ErrorCode.OK,
 				ResponseCode.ACKNOWLEDGE, appConfig);
 	}
 
 	@PostMapping(value = "/add/holidays")
 	public ResponseEntity<Object> addHolidays(@RequestBody HashMap<String, String> holiDayMap) {
 		if (holiDayMap == null || holiDayMap.isEmpty()) {
-			return ResponseHandler.response(HttpStatus.BAD_REQUEST, true, "No Data to add", ErrorCode.ERROR,
+			return ResponseBuilder.response(HttpStatus.BAD_REQUEST, true, "No Data to add", ErrorCode.ERROR,
 					ResponseCode.ACKNOWLEDGE_WITHOUT_RESPONSE_OBJECT);
 		}
 		List<Holidays> addedHolidaysList = appService.addHolidays(holiDayMap);
 		if (addedHolidaysList == null) {
-			return ResponseHandler.response(HttpStatus.BAD_REQUEST, true, "Data already exist", ErrorCode.ERROR,
+			return ResponseBuilder.response(HttpStatus.BAD_REQUEST, true, "Data already exist", ErrorCode.ERROR,
 					ResponseCode.ACKNOWLEDGE_WITHOUT_RESPONSE_OBJECT);
 		}
-		return ResponseHandler.response(HttpStatus.OK, false, "Holidays Added", ErrorCode.OK, ResponseCode.ACKNOWLEDGE,
+		return ResponseBuilder.response(HttpStatus.OK, false, "Holidays Added", ErrorCode.OK, ResponseCode.ACKNOWLEDGE,
 				addedHolidaysList);
 	}
 

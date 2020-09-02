@@ -19,8 +19,7 @@ import com.school.portal.enums.LoginAttempt;
 import com.school.portal.enums.ResponseCode;
 import com.school.portal.service.AuthenticationService;
 import com.school.portal.service.UserService;
-import com.school.portal.utils.ResponseBuildUtility;
-import com.school.portal.utils.ResponseHandler;
+import com.school.portal.utils.ResponseBuilder;
 
 import io.swagger.annotations.Api;
 
@@ -40,18 +39,18 @@ public class LoginController {
 	public ResponseEntity<Object> login(@RequestBody LoginUser loginUser) {
 		User user = userService.checkCredaintials(loginUser);
 		if (Objects.nonNull(user) && user.isBlocked()) {
-			return ResponseHandler.response(HttpStatus.BAD_REQUEST, true, "User is blocked due to too many failure login atempt.", ErrorCode.ERROR,
+			return ResponseBuilder.response(HttpStatus.BAD_REQUEST, true, "User is blocked due to too many failure login atempt.", ErrorCode.ERROR,
 					ResponseCode.ACKNOWLEDGE_WITHOUT_RESPONSE_OBJECT);
 		}
 		if (Objects.isNull(user)) {
 			int loginCountSetByAdmin = userService.checkAndUpdateLoginAtemptCount(userService.getUser(loginUser.getUsername().trim()), LoginAttempt.FAILURE);
-			return ResponseHandler.response(HttpStatus.BAD_REQUEST, true,
+			return ResponseBuilder.response(HttpStatus.BAD_REQUEST, true,
 					loginCountSetByAdmin == 0 ? "Incorrect Login Details": "Incorrect Login Details ::: Max Count " + loginCountSetByAdmin,
 					ErrorCode.ERROR, ResponseCode.ACKNOWLEDGE_WITHOUT_RESPONSE_OBJECT);
 		}
 		userService.checkAndUpdateLoginAtemptCount(user, LoginAttempt.SUCCESS);
 		String jwtToken = authenticationService.login(loginUser);
-		Map<String, Object> map = ResponseBuildUtility.buildLoginResponse(jwtToken, user);
-		return ResponseHandler.response(HttpStatus.OK, false, "Login Success", ErrorCode.OK, ResponseCode.ACKNOWLEDGE,map);
+		Map<String, Object> map = ResponseBuilder.buildLoginResponse(jwtToken, user);
+		return ResponseBuilder.response(HttpStatus.OK, false, "Login Success", ErrorCode.OK, ResponseCode.ACKNOWLEDGE,map);
 	}
 }

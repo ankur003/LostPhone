@@ -1,44 +1,24 @@
 package com.school.portal.domain.app;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.school.portal.domain.base.AbstractTemporalDomain;
 
 @Entity
-public class LoginCount {
+public class LoginCount extends AbstractTemporalDomain{
 
-	@JsonIgnore
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private static final long serialVersionUID = -4595989419831206375L;
 
-	private Integer loginCount;
+	private Integer countPermited;
 
 	private boolean isLoginCountActive = false;
 
-	private LocalDateTime createdAt;
-
-	private LocalDateTime updatedAt;
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
 	public Integer getLoginCount() {
-		return loginCount;
+		return countPermited;
 	}
 
-	public void setLoginCount(Integer loginCount) {
-		this.loginCount = loginCount;
+	public void setLoginCount(Integer countPermited) {
+		this.countPermited = countPermited;
 	}
 
 	public boolean isLoginCountActive() {
@@ -47,22 +27,6 @@ public class LoginCount {
 
 	public void setLoginCountActive(boolean isLoginCountActive) {
 		this.isLoginCountActive = isLoginCountActive;
-	}
-
-	public LocalDateTime getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public LocalDateTime getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(LocalDateTime updatedAt) {
-		this.updatedAt = updatedAt;
 	}
 
 }

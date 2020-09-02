@@ -1,8 +1,7 @@
 package com.school.portal.domain;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,10 +9,9 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -21,51 +19,37 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.school.portal.domain.base.AbstractTemporalDomain;
+import com.school.portal.enums.UserType;
 
 @Entity
-public class User {
+public class User extends AbstractTemporalDomain {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-	@Column
+	private static final long serialVersionUID = -1293783007980955204L;
+
 	private String username;
-	@Column
+
 	@JsonIgnore
 	private String password;
 
-	@Column
-	private String userType;
+	@Enumerated(EnumType.STRING)
+	private UserType userType;
 
-	@Column
-	private Date dob;
+	private LocalDate dob;
 
-	@Column
-	private Date doj;
+	private LocalDate doj;
 
-	@Column
-	private long rollNo;
+	private Long rollNo;
 
-	@Column
 	private String name;
 
-	@Column
-	private boolean isAdmin = false;
+	private Boolean isAdmin;
 
-	@Column
-	private boolean isActive = true;
+	private Boolean isActive;
 
-	@Column
-	private boolean isBlocked = false;
+	private Boolean isBlocked;
 
-	@Column
-	private int failureLoginCount = 0;
-
-	@Column
-	private LocalDateTime createdAt = LocalDateTime.now();
-
-	@Column
-	private LocalDateTime updatedAt;
+	private Integer failureLoginCount;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "USER_ROLES", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = {
@@ -74,19 +58,11 @@ public class User {
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	@JsonManagedReference
-	private List<Address> address = new ArrayList<>();
+	private List<AddressDetail> address = new ArrayList<>();
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	@JsonManagedReference
-	private Set<ClassNames> classNames = new HashSet<>();
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
+	private Set<ClassDetail> classNames = new HashSet<>();
 
 	public String getUsername() {
 		return username;
@@ -112,28 +88,32 @@ public class User {
 		this.roles = roles;
 	}
 
-	public String getUserType() {
+	public UserType getUserType() {
 		return userType;
 	}
 
-	public void setUserType(String userType) {
+	public void setUserType(UserType userType) {
 		this.userType = userType;
 	}
 
-	public Date getDob() {
+	public LocalDate getDob() {
 		return dob;
 	}
 
-	public void setDob(Date dob) {
+	public void setDob(LocalDate dob) {
 		this.dob = dob;
 	}
 
-	public Date getDoj() {
+	public LocalDate getDoj() {
 		return doj;
 	}
 
-	public void setDoj(Date doj) {
+	public void setDoj(LocalDate doj) {
 		this.doj = doj;
+	}
+
+	public void setRollNo(Long rollNo) {
+		this.rollNo = rollNo;
 	}
 
 	public long getRollNo() {
@@ -168,19 +148,19 @@ public class User {
 		this.isActive = isActive;
 	}
 
-	public List<Address> getAddress() {
+	public List<AddressDetail> getAddress() {
 		return address;
 	}
 
-	public void setAddress(List<Address> address) {
+	public void setAddress(List<AddressDetail> address) {
 		this.address = address;
 	}
 
-	public Set<ClassNames> getClassNames() {
+	public Set<ClassDetail> getClassNames() {
 		return classNames;
 	}
 
-	public void setClassNames(Set<ClassNames> classNames) {
+	public void setClassNames(Set<ClassDetail> classNames) {
 		this.classNames = classNames;
 	}
 
@@ -198,22 +178,6 @@ public class User {
 
 	public void setFailureLoginCount(int failureLoginCount) {
 		this.failureLoginCount = failureLoginCount;
-	}
-
-	public LocalDateTime getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public LocalDateTime getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(LocalDateTime updatedAt) {
-		this.updatedAt = updatedAt;
 	}
 
 }

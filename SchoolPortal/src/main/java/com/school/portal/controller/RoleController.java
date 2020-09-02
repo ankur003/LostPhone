@@ -22,7 +22,7 @@ import com.school.portal.enums.RoleEum;
 import com.school.portal.service.RoleService;
 import com.school.portal.service.UserService;
 import com.school.portal.utils.LoggedInUserUtil;
-import com.school.portal.utils.ResponseHandler;
+import com.school.portal.utils.ResponseBuilder;
 
 import io.swagger.annotations.Api;
 
@@ -50,20 +50,20 @@ public class RoleController {
 
 		User user = userService.getUser(userEmail);
 		if (Objects.isNull(user)) {
-			return ResponseHandler.response(HttpStatus.BAD_REQUEST, true, "User not found", ErrorCode.ERROR,
+			return ResponseBuilder.response(HttpStatus.BAD_REQUEST, true, "User not found", ErrorCode.ERROR,
 					ResponseCode.ACKNOWLEDGE_WITHOUT_RESPONSE_OBJECT);
 		}
 		boolean isValid = roleService.checkRole(roleName);
 		if (!isValid) {
-			return ResponseHandler.response(HttpStatus.BAD_REQUEST, true, "Add RoleEum First into application ",
+			return ResponseBuilder.response(HttpStatus.BAD_REQUEST, true, "Add RoleEum First into application ",
 					ErrorCode.ERROR, ResponseCode.ACKNOWLEDGE);
 		}
-		boolean isDone = userService.assignOrRemoveRole(user, roleName.name(), isAssign);
+		boolean isDone = userService.assignOrRemoveRole(user, roleName, isAssign);
 		if (isDone) {
-			return ResponseHandler.response(HttpStatus.OK, false, "RoleEum Updated", ErrorCode.OK,
+			return ResponseBuilder.response(HttpStatus.OK, false, "RoleEum Updated", ErrorCode.OK,
 					ResponseCode.ACKNOWLEDGE);
 		}
-		return ResponseHandler.response(HttpStatus.INTERNAL_SERVER_ERROR, true, "RoleEum Already Assigned",
+		return ResponseBuilder.response(HttpStatus.INTERNAL_SERVER_ERROR, true, "RoleEum Already Assigned",
 				ErrorCode.ERROR, ResponseCode.ACKNOWLEDGE);
 	}
 
@@ -74,15 +74,15 @@ public class RoleController {
 
 		boolean isValid = roleService.checkRole(roleName);
 		if (isValid) {
-			return ResponseHandler.response(HttpStatus.BAD_REQUEST, true, "RoleEum Already Added", ErrorCode.ERROR,
+			return ResponseBuilder.response(HttpStatus.BAD_REQUEST, true, "RoleEum Already Added", ErrorCode.ERROR,
 					ResponseCode.ACKNOWLEDGE);
 		}
 		com.school.portal.domain.Role role = roleService.addRole(roleName, roleDesc);
 		if (Objects.isNull(role)) {
-			return ResponseHandler.response(HttpStatus.INTERNAL_SERVER_ERROR, true, "Some Thing went wrong",
+			return ResponseBuilder.response(HttpStatus.INTERNAL_SERVER_ERROR, true, "Some Thing went wrong",
 					ErrorCode.ERROR, ResponseCode.ACKNOWLEDGE);
 		}
-		return ResponseHandler.response(HttpStatus.OK, false, "RoleEum Added", ErrorCode.OK, ResponseCode.ACKNOWLEDGE,
+		return ResponseBuilder.response(HttpStatus.OK, false, "RoleEum Added", ErrorCode.OK, ResponseCode.ACKNOWLEDGE,
 				role);
 	}
 }

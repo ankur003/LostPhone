@@ -6,7 +6,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.school.portal.domain.ClassNames;
+import com.school.portal.domain.ClassDetail;
 import com.school.portal.domain.Role;
 import com.school.portal.domain.SectionNames;
 import com.school.portal.domain.User;
@@ -45,7 +45,7 @@ public class TeacherServiceImpl implements TeacherService {
 //		user.setDoj(createTeacherForm.getDoj());
 			user.setName(createTeacherForm.getTeacherName());
 			user.setUsername(createTeacherForm.getEmail());
-			user.setUserType(UserType.TEACHER.name());
+			user.setUserType(UserType.TEACHER);
 			setSectionAndClassDetails(user, createTeacherForm);
 			
 			Set<Role> roleAssignToBeUser = new HashSet<>();
@@ -70,9 +70,9 @@ public class TeacherServiceImpl implements TeacherService {
 	private User setSectionAndClassDetails(User user, CreateTeacherForm createTeacherForm) {
 		if (createTeacherForm.isClassTeacher()) {
 			Set<String> classNames = createTeacherForm.getTeacherClassSectionMap().keySet();
-			Set<ClassNames> setOfClassNames = new HashSet<>();
+			Set<ClassDetail> setOfClassNames = new HashSet<>();
 			for (String classNameInString : classNames) {
-				ClassNames className = new ClassNames();
+				ClassDetail className = new ClassDetail();
 				className.setClassName(classNameInString);
 				className.setUser(user);
 				Set<String> sectionSetInString = createTeacherForm.getTeacherClassSectionMap().get(classNameInString);
@@ -87,7 +87,7 @@ public class TeacherServiceImpl implements TeacherService {
 		return user;
 	}
 
-	private Set<SectionNames> getSectionSet(ClassNames className, Set<String> sectionSetInString) {
+	private Set<SectionNames> getSectionSet(ClassDetail className, Set<String> sectionSetInString) {
 		Set<SectionNames> set = new HashSet<>();
 		for (String sectionName : sectionSetInString) {
 			SectionNames section = new SectionNames();

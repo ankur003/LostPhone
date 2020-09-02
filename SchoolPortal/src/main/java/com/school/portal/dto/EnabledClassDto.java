@@ -1,7 +1,7 @@
 package com.school.portal.dto;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.school.portal.domain.SectionMaster;
@@ -10,7 +10,7 @@ public class EnabledClassDto {
 
 	private String className;
 
-	private Date createdAt;
+	private LocalDateTime createdAt;
 
 	private boolean isActive;
 
@@ -42,11 +42,11 @@ public class EnabledClassDto {
 		this.classId = classId;
 	}
 
-	public Date getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 

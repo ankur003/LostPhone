@@ -4,9 +4,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +15,7 @@ import com.school.portal.domain.app.Holidays;
 import com.school.portal.domain.app.LoginCount;
 import com.school.portal.repo.app.AppConfigRepo;
 import com.school.portal.repo.app.HolidaysRepo;
+
 
 @Service
 public class AppServiceImpl implements AppService {
@@ -26,7 +27,6 @@ public class AppServiceImpl implements AppService {
 	private HolidaysRepo holidaysRepo;
 
 	private SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
-	private String dateInString = "7-Jun-2013";
 
 	@Override
 	public LoginCount updateLoginCount(Integer loginCountTobeUpdated, boolean isLoginCountActive) {
@@ -75,7 +75,7 @@ public class AppServiceImpl implements AppService {
 			});
 			return holidaysRepo.saveAll(holidaysToBeSave);
 		}
-		return null;
+		return Collections.emptyList();
 	}
 
 }

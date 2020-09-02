@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.school.portal.domain.User;
 import com.school.portal.dto.LoginUser;
 import com.school.portal.enums.LoginAttempt;
+import com.school.portal.enums.RoleEum;
 import com.school.portal.repo.UserRepo;
 import com.school.portal.service.UserService;
 import com.school.portal.service.app.AppService;
@@ -68,11 +69,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	}
 
 	@Override
-	public boolean assignOrRemoveRole(User user, String roleName, Boolean isAssign) {
+	public boolean assignOrRemoveRole(User user, RoleEum roleName, Boolean isAssign) {
 		Set<com.school.portal.domain.Role> roleSet = user.getRoles();
 		if (isAssign) {
 			for (com.school.portal.domain.Role role : roleSet) {
-				if (role.getName().equalsIgnoreCase(roleName)) {
+				if (role.getName().equals(roleName)) {
 					return false;
 				}
 			}
@@ -81,7 +82,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 			return userRepo.save(user) != null;
 		}
 		for (com.school.portal.domain.Role role : roleSet) {
-			if (role.getName().equalsIgnoreCase(roleName)) {
+			if (role.getName().equals(roleName)) {
 				roleSet.remove(role);
 				return userRepo.save(user) != null;
 			}

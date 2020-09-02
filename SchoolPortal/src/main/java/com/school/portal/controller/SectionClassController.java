@@ -30,9 +30,8 @@ import com.school.portal.enums.ErrorCode;
 import com.school.portal.enums.ResponseCode;
 import com.school.portal.service.SectionClassService;
 import com.school.portal.utils.ErrorCollectionUtil;
-import com.school.portal.utils.ResponseBuildUtility;
-import com.school.portal.utils.ResponseHandler;
-import com.school.portal.utils.Utils;
+import com.school.portal.utils.ResponseBuilder;
+import com.school.portal.utils.SchoolPortalUtils;
 
 import io.swagger.annotations.Api;
 
@@ -50,19 +49,19 @@ public class SectionClassController {
 	public ResponseEntity<Object> createSectionAndClass(@Valid @RequestBody SectionClassDto sectionClassDto,
 			BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
-			return ResponseHandler.response(HttpStatus.BAD_REQUEST, true, ErrorCollectionUtil.getError(bindingResult),
+			return ResponseBuilder.response(HttpStatus.BAD_REQUEST, true, ErrorCollectionUtil.getError(bindingResult),
 					ErrorCode.ERROR, ResponseCode.ACKNOWLEDGE_OPTIONAL_RESPONSE_OBJECT,
 					ErrorCollectionUtil.getErrorMap(bindingResult));
 		}
 		ClassMaster createdClassDetails = sectionClassService.checkAlreadyCreatedClassOrSectionAndSave(sectionClassDto);
 		LOGGER.info("classMaster ===== > {}", createdClassDetails);
 		if (Objects.isNull(createdClassDetails)) {
-			return ResponseHandler.response(HttpStatus.BAD_REQUEST, true,
+			return ResponseBuilder.response(HttpStatus.BAD_REQUEST, true,
 					"Update Activity Detected, Go to update class and section", ErrorCode.ERROR,
 					ResponseCode.ACKNOWLEDGE_WITHOUT_RESPONSE_OBJECT);
 		}
-		Map<String, Object> createdClassResponseMap = ResponseBuildUtility.buildClassResponse(createdClassDetails);
-		return ResponseHandler.response(HttpStatus.OK, false, "Class Created Successfully", ErrorCode.OK,
+		Map<String, Object> createdClassResponseMap = ResponseBuilder.buildClassResponse(createdClassDetails);
+		return ResponseBuilder.response(HttpStatus.OK, false, "Class Created Successfully", ErrorCode.OK,
 				ResponseCode.ACKNOWLEDGE, createdClassResponseMap);
 	}
 
@@ -70,8 +69,8 @@ public class SectionClassController {
 	public ResponseEntity<Object> getAllClassAndSections() {
 		List<ClassMaster> classDetailsList = sectionClassService.getAllClassAndSections();
 		LOGGER.info("classMaster ===== > {}", classDetailsList);
-		Map<String, Object> classResponseMap = ResponseBuildUtility.buildClassResponse(classDetailsList);
-		return ResponseHandler.response(HttpStatus.OK, false, "Class and Section Retrieved Successfully", ErrorCode.OK,
+		Map<String, Object> classResponseMap = ResponseBuilder.buildClassResponse(classDetailsList);
+		return ResponseBuilder.response(HttpStatus.OK, false, "Class and Section Retrieved Successfully", ErrorCode.OK,
 				ResponseCode.ACKNOWLEDGE, classResponseMap);
 	}
 
@@ -81,9 +80,9 @@ public class SectionClassController {
 	public ResponseEntity<Object> getAllEnableClassAndSections() {
 		List<ClassMaster> classDetailsList = sectionClassService.getAllClassAndSections();
 		LOGGER.info("classMaster ===== > {}", classDetailsList);
-		Map<String, Object> classResponseMap = ResponseBuildUtility
+		Map<String, Object> classResponseMap = ResponseBuilder
 				.buildEnableClassAndSectionResponse(classDetailsList);
-		return ResponseHandler.response(HttpStatus.OK, false, "Class and Section Retrieved Successfully", ErrorCode.OK,
+		return ResponseBuilder.response(HttpStatus.OK, false, "Class and Section Retrieved Successfully", ErrorCode.OK,
 				ResponseCode.ACKNOWLEDGE, classResponseMap);
 	}
 
@@ -93,11 +92,11 @@ public class SectionClassController {
 		ClassMaster classDetails = sectionClassService.getSectionsListByClassName(className);
 		LOGGER.info("classMaster getSectionsListByClassName ===== > {}", classDetails);
 		if (classDetails == null) {
-			return ResponseHandler.response(HttpStatus.BAD_REQUEST, true, "Class Not Found", ErrorCode.ERROR,
+			return ResponseBuilder.response(HttpStatus.BAD_REQUEST, true, "Class Not Found", ErrorCode.ERROR,
 					ResponseCode.ACKNOWLEDGE_WITHOUT_RESPONSE_OBJECT);
 		}
-		Map<String, Object> classResponseMap = ResponseBuildUtility.buildClassResponse(classDetails);
-		return ResponseHandler.response(HttpStatus.OK, false, "Class Retrieved Successfully", ErrorCode.OK,
+		Map<String, Object> classResponseMap = ResponseBuilder.buildClassResponse(classDetails);
+		return ResponseBuilder.response(HttpStatus.OK, false, "Class Retrieved Successfully", ErrorCode.OK,
 				ResponseCode.ACKNOWLEDGE, classResponseMap);
 	}
 
@@ -108,11 +107,11 @@ public class SectionClassController {
 		ClassMaster classMaster = sectionClassService.checkIsClassExists(className, true);
 		if (Objects.nonNull(classMaster)) {
 			ClassMaster updatedClassMaster = sectionClassService.disableClassAndSections(classMaster);
-			Map<String, Object> createdClassResponseMap = ResponseBuildUtility.buildClassResponse(updatedClassMaster);
-			return ResponseHandler.response(HttpStatus.OK, false, "Class Deleted Successfully", ErrorCode.OK,
+			Map<String, Object> createdClassResponseMap = ResponseBuilder.buildClassResponse(updatedClassMaster);
+			return ResponseBuilder.response(HttpStatus.OK, false, "Class Deleted Successfully", ErrorCode.OK,
 					ResponseCode.ACKNOWLEDGE, createdClassResponseMap);
 		}
-		return ResponseHandler.response(HttpStatus.BAD_REQUEST, false, "Class Not Exists ", ErrorCode.ERROR,
+		return ResponseBuilder.response(HttpStatus.BAD_REQUEST, false, "Class Not Exists ", ErrorCode.ERROR,
 				ResponseCode.ACKNOWLEDGE_WITHOUT_RESPONSE_OBJECT);
 	}
 
@@ -123,18 +122,18 @@ public class SectionClassController {
 
 		ClassMaster classMaster = sectionClassService.checkIsClassExists(className, true);
 		if (Objects.isNull(classMaster)) {
-			return ResponseHandler.response(HttpStatus.BAD_REQUEST, false, "Class Not Exists", ErrorCode.ERROR,
+			return ResponseBuilder.response(HttpStatus.BAD_REQUEST, false, "Class Not Exists", ErrorCode.ERROR,
 					ResponseCode.ACKNOWLEDGE_WITHOUT_RESPONSE_OBJECT);
 		}
 		List<SectionMaster> sectionList = classMaster.getSectionMaster();
-		boolean isSectionExists = Utils.checkIsSectionExistsInClass(sectionList, sectionName);
+		boolean isSectionExists = SchoolPortalUtils.checkIsSectionExistsInClass(sectionList, sectionName);
 		if (isSectionExists) {
 			classMaster = sectionClassService.disablePurticularSection(classMaster, sectionName);
-			Map<String, Object> classResponseMap = ResponseBuildUtility.buildClassResponse(classMaster);
-			return ResponseHandler.response(HttpStatus.OK, false, "Section Deleted Successfully", ErrorCode.OK,
+			Map<String, Object> classResponseMap = ResponseBuilder.buildClassResponse(classMaster);
+			return ResponseBuilder.response(HttpStatus.OK, false, "Section Deleted Successfully", ErrorCode.OK,
 					ResponseCode.ACKNOWLEDGE, classResponseMap);
 		}
-		return ResponseHandler.response(HttpStatus.BAD_REQUEST, false, "Section does not exists in Class",
+		return ResponseBuilder.response(HttpStatus.BAD_REQUEST, false, "Section does not exists in Class",
 				ErrorCode.ERROR, ResponseCode.ACKNOWLEDGE_WITHOUT_RESPONSE_OBJECT);
 	}
 
@@ -145,11 +144,11 @@ public class SectionClassController {
 		ClassMaster classMaster = sectionClassService.checkIsClassExists(className, false);
 		if (Objects.nonNull(classMaster)) {
 			ClassMaster updatedClassMaster = sectionClassService.enableClass(classMaster);
-			Map<String, Object> createdClassResponseMap = ResponseBuildUtility.buildClassResponse(updatedClassMaster);
-			return ResponseHandler.response(HttpStatus.OK, false, "Class Enabled Successfully", ErrorCode.OK,
+			Map<String, Object> createdClassResponseMap = ResponseBuilder.buildClassResponse(updatedClassMaster);
+			return ResponseBuilder.response(HttpStatus.OK, false, "Class Enabled Successfully", ErrorCode.OK,
 					ResponseCode.ACKNOWLEDGE, createdClassResponseMap);
 		}
-		return ResponseHandler.response(HttpStatus.BAD_REQUEST, false, "Class Not Exists", ErrorCode.ERROR,
+		return ResponseBuilder.response(HttpStatus.BAD_REQUEST, false, "Class Not Exists", ErrorCode.ERROR,
 				ResponseCode.ACKNOWLEDGE_WITHOUT_RESPONSE_OBJECT);
 	}
 
@@ -161,11 +160,11 @@ public class SectionClassController {
 		ClassMaster classMaster = sectionClassService.checkIsClassExists(className, true);
 		if (Objects.nonNull(classMaster)) {
 			ClassMaster updatedClassMaster = sectionClassService.enableSections(classMaster, sectionNames);
-			Map<String, Object> createdClassResponseMap = ResponseBuildUtility.buildClassResponse(updatedClassMaster);
-			return ResponseHandler.response(HttpStatus.OK, false, "Class Enabled Successfully", ErrorCode.OK,
+			Map<String, Object> createdClassResponseMap = ResponseBuilder.buildClassResponse(updatedClassMaster);
+			return ResponseBuilder.response(HttpStatus.OK, false, "Class Enabled Successfully", ErrorCode.OK,
 					ResponseCode.ACKNOWLEDGE, createdClassResponseMap);
 		}
-		return ResponseHandler.response(HttpStatus.BAD_REQUEST, false, "Create or enable class first", ErrorCode.ERROR,
+		return ResponseBuilder.response(HttpStatus.BAD_REQUEST, false, "Create or enable class first", ErrorCode.ERROR,
 				ResponseCode.ACKNOWLEDGE_WITHOUT_RESPONSE_OBJECT);
 	}
 

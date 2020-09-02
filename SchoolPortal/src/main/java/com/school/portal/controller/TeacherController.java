@@ -23,7 +23,7 @@ import com.school.portal.enums.RoleEum;
 import com.school.portal.service.RoleService;
 import com.school.portal.service.TeacherService;
 import com.school.portal.utils.ErrorCollectionUtil;
-import com.school.portal.utils.ResponseHandler;
+import com.school.portal.utils.ResponseBuilder;
 
 import io.swagger.annotations.Api;
 
@@ -45,28 +45,28 @@ public class TeacherController {
 	public ResponseEntity<Object> createTeacher(@Valid @RequestBody CreateTeacherForm createTeacherForm,
 			@RequestHeader("Authorization") String authorization, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
-			return ResponseHandler.response(HttpStatus.BAD_REQUEST, true, ErrorCollectionUtil.getError(bindingResult),
+			return ResponseBuilder.response(HttpStatus.BAD_REQUEST, true, ErrorCollectionUtil.getError(bindingResult),
 					ErrorCode.ERROR, ResponseCode.ACKNOWLEDGE_OPTIONAL_RESPONSE_OBJECT,
 					ErrorCollectionUtil.getErrorMap(bindingResult));
 		}
 		boolean isExist = teacherService.checkAlreadyExist(createTeacherForm);
 		LOGGER.info("isExist--->>>  {}", isExist);
 		if (isExist) {
-			return ResponseHandler.response(HttpStatus.BAD_REQUEST, true, "Teacher Already Exist", ErrorCode.ERROR,
+			return ResponseBuilder.response(HttpStatus.BAD_REQUEST, true, "Teacher Already Exist", ErrorCode.ERROR,
 					ResponseCode.ACKNOWLEDGE_WITHOUT_RESPONSE_OBJECT);
 		}
 
 		boolean isRoleExist = roleService.checkRole(RoleEum.TEACHER);
 		if (!isRoleExist) {
-			return ResponseHandler.response(HttpStatus.BAD_REQUEST, true, "Create Teacher RoleEum first", ErrorCode.ERROR,
+			return ResponseBuilder.response(HttpStatus.BAD_REQUEST, true, "Create Teacher RoleEum first", ErrorCode.ERROR,
 					ResponseCode.ACKNOWLEDGE_WITHOUT_RESPONSE_OBJECT);
 		}
 		User teacher = teacherService.createTeacher(createTeacherForm);
 		if (teacher == null) {
-			return ResponseHandler.response(HttpStatus.INTERNAL_SERVER_ERROR, true, "Teacher creation failed",
+			return ResponseBuilder.response(HttpStatus.INTERNAL_SERVER_ERROR, true, "Teacher creation failed",
 					ErrorCode.ERROR, ResponseCode.ACKNOWLEDGE_WITHOUT_RESPONSE_OBJECT);
 		}
-		return ResponseHandler.response(HttpStatus.OK, false, "Teacher Created Successfully", ErrorCode.OK,
+		return ResponseBuilder.response(HttpStatus.OK, false, "Teacher Created Successfully", ErrorCode.OK,
 				ResponseCode.ACKNOWLEDGE, teacher.getName());
 	}
 }

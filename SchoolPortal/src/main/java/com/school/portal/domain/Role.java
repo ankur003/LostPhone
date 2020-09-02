@@ -2,35 +2,28 @@ package com.school.portal.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
+import com.school.portal.domain.base.AbstractTemporalDomain;
+import com.school.portal.enums.RoleEum;
 
 @Entity
-public class Role {
+public class Role extends AbstractTemporalDomain {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private static final long serialVersionUID = 7189961001551880900L;
 
-	private String name;
+	@Enumerated(EnumType.STRING)
+	private RoleEum name;
 
 	@Column
 	private String description;
 
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public String getName() {
+	public RoleEum getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(RoleEum name) {
 		this.name = name;
 	}
 
