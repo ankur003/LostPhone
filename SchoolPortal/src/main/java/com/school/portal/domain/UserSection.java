@@ -25,7 +25,7 @@ public class UserSection extends BaseDomain {
 
 	public String getSectionName() {
 		return sectionName;
-	}
+	} 
 
 	public void setSectionName(String sectionName) {
 		this.sectionName = sectionName;
