@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -143,11 +144,27 @@ public class ResponseBuilder {
 
 	}
 	
-    public static <S, D> ResponseEntity<Object> getApiBaseResponseData(final Mapper beanMapper, final List<S> dataDtos, final Class<D> modelClass) {
-        if (CollectionUtils.isNotEmpty(dataDtos)) {
-            final List<D> dataModels = DozerMapperUtil.mapCollection(beanMapper, dataDtos, modelClass);
+    public static <S, D> ResponseEntity<Object> getApiResponseWithPagination(final Mapper beanMapper, final List<S> dataDoaminClass, final Class<D> modelClass) {
+        if (CollectionUtils.isNotEmpty(dataDoaminClass)) {
+            final List<D> dataModels = DozerMapperUtil.mapCollection(beanMapper, dataDoaminClass, modelClass);
             final BaseResponseModel<D> baseResponseModel = mapToBaseResponseModel(dataModels, Long.MAX_VALUE, Long.valueOf(dataModels.size()));
             return ResponseEntity.ok(baseResponseModel);
+        }
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+    
+    public static <S, D> ResponseEntity<Object> getApiBaseContentResponseAsList(final Mapper beanMapper, final List<S> dataDoaminClass, final Class<D> modelClass) {
+        if (CollectionUtils.isNotEmpty(dataDoaminClass)) {
+            final List<D> dataModels = DozerMapperUtil.mapCollection(beanMapper, dataDoaminClass, modelClass);
+            return ResponseEntity.ok(dataModels);
+        }
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+    
+    public static <S, D> ResponseEntity<Object> getApiBaseContentResponse(final Mapper beanMapper, final Class<S> dataDoaminClass, final Class<D> modelClass) {
+        if (Objects.nonNull(dataDoaminClass)) {
+            final D dataModels = beanMapper.map(dataDoaminClass, modelClass);
+            return ResponseEntity.ok(dataModels);
         }
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

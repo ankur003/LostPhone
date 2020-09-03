@@ -6,6 +6,6 @@ import com.school.portal.domain.app.LoginCount;
 
 public interface AppConfigRepo extends JpaRepository<LoginCount, Long> {
 
-	LoginCount findByIsLoginCountActive(boolean isLoginCountActive);
+	LoginCount findByIsActive(boolean isLoginCountActive);
 
 }

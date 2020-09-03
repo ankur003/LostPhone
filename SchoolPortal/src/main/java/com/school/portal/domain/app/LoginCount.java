@@ -11,22 +11,12 @@ public class LoginCount extends BaseDomain{
 
 	private Integer countPermited;
 
-	private boolean isLoginCountActive = false;
-
 	public Integer getLoginCount() {
 		return countPermited;
 	}
 
 	public void setLoginCount(Integer countPermited) {
 		this.countPermited = countPermited;
-	}
-
-	public boolean isLoginCountActive() {
-		return isLoginCountActive;
-	}
-
-	public void setLoginCountActive(boolean isLoginCountActive) {
-		this.isLoginCountActive = isLoginCountActive;
 	}
 
 }

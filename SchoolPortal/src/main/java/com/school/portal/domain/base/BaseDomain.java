@@ -32,7 +32,9 @@ public abstract class BaseDomain implements Serializable {
 	private AcademicYear academicYear;
 
 	private String createdByUuid;
-	
+
+	private Boolean isActive = true;
+
 	@CreationTimestamp
 	@Column(nullable = false, updatable = false)
 	private LocalDateTime createdAt;
@@ -78,6 +80,14 @@ public abstract class BaseDomain implements Serializable {
 
 	public void setAcademicYear(AcademicYear academicYear) {
 		this.academicYear = academicYear;
+	}
+
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
 	}
 
 }

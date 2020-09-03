@@ -19,6 +19,8 @@
 		<java.version>1.8</java.version>
 		<hibernate-search.version>5.7.3.Final</hibernate-search.version>
 		<dozer.version>5.5.1</dozer.version>
+		<dozer.jdk8.support.version>1.0.6</dozer.jdk8.support.version>
+		<bcprov-jdk15on.version>1.52</bcprov-jdk15on.version>
 		<commons-io.version>2.4</commons-io.version>
 		<commons-collections4.version>4.0</commons-collections4.version>
 	</properties>
@@ -76,6 +78,18 @@
 			<groupId>net.sf.dozer</groupId>
 			<artifactId>dozer</artifactId>
 			<version>${dozer.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.craftsman</groupId>
+			<artifactId>dozer-jdk8-support</artifactId>
+			<version>${dozer.jdk8.support.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-jdk15on</artifactId>
+			<version>${bcprov-jdk15on.version}</version>
 		</dependency>
 
 		<dependency>

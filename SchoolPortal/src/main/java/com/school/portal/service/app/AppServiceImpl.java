@@ -45,13 +45,13 @@ public class AppServiceImpl implements AppService {
 	private LoginCount addOrUpdateLoginCount(LoginCount loginCount, Integer loginCountTobeUpdated,
 			boolean isLoginCountActive) {
 		loginCount.setLoginCount(loginCountTobeUpdated);
-		loginCount.setLoginCountActive(isLoginCountActive);
+		loginCount.setIsActive(isLoginCountActive);
 		return appConfigRepo.save(loginCount);
 	}
 
 	@Override
 	public int getLoginCount() {
-		LoginCount appCofing = appConfigRepo.findByIsLoginCountActive(true);
+		LoginCount appCofing = appConfigRepo.findByIsActive(true);
 		if (appCofing != null) {
 			return appCofing.getLoginCount();
 		}

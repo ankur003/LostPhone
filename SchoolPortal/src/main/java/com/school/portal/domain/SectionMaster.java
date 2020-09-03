@@ -17,22 +17,12 @@ public class SectionMaster extends BaseDomain {
 	@JsonBackReference
 	private ClassMaster classMaster;
 
-	private Boolean isActive = true;
-
 	public String getSectionName() {
 		return sectionName;
 	}
 
 	public void setSectionName(String sectionName) {
 		this.sectionName = sectionName;
-	}
-
-	public boolean getIsActive() {
-		return isActive;
-	}
-
-	public void setIsActive(boolean isActive) {
-		this.isActive = isActive;
 	}
 
 	public ClassMaster getClassMaster() {

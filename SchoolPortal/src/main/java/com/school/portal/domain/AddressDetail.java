@@ -27,8 +27,6 @@ public class AddressDetail extends BaseDomain{
 
 	private String addressType;
 
-	private Boolean isActive;
-
 	public User getUser() {
 		return user;
 	}
@@ -68,14 +66,6 @@ public class AddressDetail extends BaseDomain{
 
 	public void setAddressType(String addressType) {
 		this.addressType = addressType;
-	}
-
-	public boolean isActive() {
-		return isActive;
-	}
-
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
 	}
 
 	public String getState() {

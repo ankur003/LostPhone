@@ -44,8 +44,6 @@ public class User extends BaseDomain {
 
 	private Boolean isAdmin;
 
-	private Boolean isActive;
-
 	private Boolean isBlocked;
 
 	private Integer failureLoginAttempt;
@@ -125,14 +123,6 @@ public class User extends BaseDomain {
 
 	public void setIsAdmin(Boolean isAdmin) {
 		this.isAdmin = isAdmin;
-	}
-
-	public Boolean getIsActive() {
-		return isActive;
-	}
-
-	public void setIsActive(Boolean isActive) {
-		this.isActive = isActive;
 	}
 
 	public Boolean getIsBlocked() {

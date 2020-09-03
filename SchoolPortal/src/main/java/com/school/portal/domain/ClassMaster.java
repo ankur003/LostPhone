@@ -24,22 +24,12 @@ public class ClassMaster extends BaseDomain implements Serializable {
 	@JsonManagedReference
 	private List<SectionMaster> sectionMaster = new ArrayList<>();
 
-	private Boolean isActive = true;
-
 	public String getClassName() {
 		return className;
 	}
 
 	public void setClassName(String className) {
 		this.className = className;
-	}
-
-	public Boolean getIsActive() {
-		return isActive;
-	}
-
-	public void setIsActive(Boolean isActive) {
-		this.isActive = isActive;
 	}
 
 	public List<SectionMaster> getSectionMaster() {

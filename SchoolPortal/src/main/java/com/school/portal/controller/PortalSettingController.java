@@ -1,4 +1,4 @@
-package com.school.portal.controller.app;
+package com.school.portal.controller;
 
 import java.util.List;
 import java.util.Map;
@@ -27,7 +27,7 @@ import io.swagger.annotations.Api;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/admin")
-public class AppController {
+public class PortalSettingController {
 
 	@Autowired
 	private AppService appService;
@@ -54,5 +54,5 @@ public class AppController {
 		return ResponseBuilder.response(HttpStatus.OK, false, "Holidays Added", ErrorCode.OK, ResponseCode.ACKNOWLEDGE,
 				addedHolidaysList);
 	}
-
+	
 }
