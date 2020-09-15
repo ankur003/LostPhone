@@ -1,4 +1,4 @@
-package com.school.portal.domain;
+package com.school.portal.domain.app;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -16,6 +16,8 @@ public class SectionMaster extends BaseDomain {
 	@ManyToOne
 	@JsonBackReference
 	private ClassMaster classMaster;
+	
+	private String sectionUuid;
 
 	public String getSectionName() {
 		return sectionName;
@@ -32,4 +34,13 @@ public class SectionMaster extends BaseDomain {
 	public void setClassMaster(ClassMaster classMaster) {
 		this.classMaster = classMaster;
 	}
+
+	public String getSectionUuid() {
+		return sectionUuid;
+	}
+
+	public void setSectionUuid(String sectionUuid) {
+		this.sectionUuid = sectionUuid;
+	}
+
 }

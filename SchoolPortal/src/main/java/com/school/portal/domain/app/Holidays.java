@@ -1,6 +1,6 @@
 package com.school.portal.domain.app;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -10,25 +10,25 @@ import javax.validation.constraints.NotNull;
 import com.school.portal.domain.base.BaseDomain;
 
 @Entity
-public class Holidays extends BaseDomain{
+public class Holidays extends BaseDomain {
 
 	private static final long serialVersionUID = 2555582299415938793L;
 
 	@NotNull
 	@Column(unique = true)
-	private Date holidayDate;
+	private LocalDate holidayDate;
 
 	private String holidayDescription;
 
 	@NotNull
 	@Column(unique = true)
-	private String holidayUuid = UUID.randomUUID().toString() + new Date().getTime();
+	private String holidayUuid = UUID.randomUUID().toString();
 
-	public Date getHolidayDate() {
+	public LocalDate getHolidayDate() {
 		return holidayDate;
 	}
 
-	public void setHolidayDate(Date holidayDate) {
+	public void setHolidayDate(LocalDate holidayDate) {
 		this.holidayDate = holidayDate;
 	}
 
@@ -47,5 +47,4 @@ public class Holidays extends BaseDomain{
 	public void setHolidayUuid(String holidayUuid) {
 		this.holidayUuid = holidayUuid;
 	}
-
 }

@@ -3,7 +3,7 @@ package com.school.portal.utils;
 import java.util.List;
 import java.util.UUID;
 
-import com.school.portal.domain.SectionMaster;
+import com.school.portal.domain.app.SectionMaster;
 
 public final class SchoolPortalUtils {
 	

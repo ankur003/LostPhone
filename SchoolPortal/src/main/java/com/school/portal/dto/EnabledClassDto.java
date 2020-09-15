@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.school.portal.domain.SectionMaster;
+import com.school.portal.domain.app.SectionMaster;
 
 public class EnabledClassDto {
 

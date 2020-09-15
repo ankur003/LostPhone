@@ -9,13 +9,14 @@ import java.util.Objects;
 import java.util.TreeMap;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.dozer.Mapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.school.portal.domain.ClassMaster;
-import com.school.portal.domain.SectionMaster;
 import com.school.portal.domain.User;
+import com.school.portal.domain.app.ClassMaster;
+import com.school.portal.domain.app.SectionMaster;
 import com.school.portal.dto.BaseResponseModel;
 import com.school.portal.dto.EnabledClassDto;
 import com.school.portal.enums.ErrorCode;
@@ -27,58 +28,6 @@ public class ResponseBuilder {
 		//
 	}
 
-	public static Map<String, Object> buildClassResponse(ClassMaster classDetails) {
-		Map<String, Object> map = new HashMap<>();
-		map.put("className", classDetails.getClassName());
-		map.put("classId", classDetails.getId());
-		map.put("createdAt", classDetails.getCreatedAt());
-		map.put("isActive", classDetails.getIsActive());
-		List<SectionMaster> sectionList = classDetails.getSectionMaster();
-		List<String> listOfSectionName = new ArrayList<>();
-		for (SectionMaster sectionMaster : sectionList) {
-			if (sectionMaster.getIsActive()) {
-				listOfSectionName.add(sectionMaster.getSectionName());
-			}
-		}
-		map.put("sectionName", listOfSectionName);
-		return map;
-	}
-
-	public static Map<String, Object> buildClassResponse(List<ClassMaster> classDetailsList) {
-		Map<String, Object> map = new HashMap<>();
-		for (ClassMaster classMaster : classDetailsList) {
-			List<SectionMaster> sectionList = classMaster.getSectionMaster();
-			List<String> listOfSectionName = new ArrayList<>();
-			for (SectionMaster sectionMaster : sectionList) {
-				if (sectionMaster.getIsActive()) {
-					listOfSectionName.add(sectionMaster.getSectionName());
-				}
-			}
-			map.put(classMaster.getClassName(), listOfSectionName);
-		}
-		return map;
-	}
-
-	public static Map<String, Object> buildEnableClassAndSectionResponse(List<ClassMaster> classDetailsList) {
-		Map<String, Object> map = new HashMap<>();
-		for (ClassMaster classMaster : classDetailsList) {
-			if (Boolean.TRUE.equals(classMaster.getIsActive())) {
-				EnabledClassDto classDto = new EnabledClassDto();
-				classDto.setActive(classMaster.getIsActive());
-				classDto.setClassName(classMaster.getClassName());
-				classDto.setCreatedAt(classMaster.getCreatedAt());
-				classDto.setClassId(classMaster.getId());
-				List<SectionMaster> sectionMaster = classMaster.getSectionMaster();
-				for (SectionMaster section : sectionMaster) {
-					if (Boolean.TRUE.equals(section.getIsActive())) {
-						classDto.setSectionMaster(sectionMaster);
-					}
-				}
-				map.put(classMaster.getClassName(), classDto);
-			}
-		}
-		return map;
-	}
 
 	public static Map<String, Object> buildLoginResponse(String jwtToken, User user) {
 		Map<String, Object> map = new HashMap<>();
@@ -87,7 +36,7 @@ public class ResponseBuilder {
 		map.put("userType", user.getUserType());
 		return map;
 	}
-	
+
 	/**
 	 * 
 	 * @param httpStatus
@@ -143,43 +92,59 @@ public class ResponseBuilder {
 		return new ResponseEntity<>(map, httpStatus);
 
 	}
+
+	public static <S, D> ResponseEntity<Object> getApiResponseWithPagination(final Mapper beanMapper, final List<S> dataDoaminClass, final Class<D> modelClass) {
+		if (CollectionUtils.isNotEmpty(dataDoaminClass)) {
+			final List<D> dataModels = DozerMapperUtil.mapCollection(beanMapper, dataDoaminClass, modelClass);
+			final BaseResponseModel<D> baseResponseModel = mapToBaseResponseModel(dataModels, Long.MAX_VALUE,
+					Long.valueOf(dataModels.size()));
+			return ResponseEntity.ok(baseResponseModel);
+		}
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+	}
+
+	public static <S, D> ResponseEntity<Object> getApiBaseContentResponseAsList(final Mapper beanMapper, final List<S> dataDoaminClass, final Class<D> modelClass) {
+		if (CollectionUtils.isNotEmpty(dataDoaminClass)) {
+			final List<D> dataModels = DozerMapperUtil.mapCollection(beanMapper, dataDoaminClass, modelClass);
+			return ResponseEntity.ok(dataModels);
+		}
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+	}
+
+	public static <S, D> ResponseEntity<Object> getApiBaseContentResponse(final Mapper beanMapper, final Class<S> dataDoaminClass, final Class<D> modelClass) {
+		if (Objects.nonNull(dataDoaminClass)) {
+			final D dataModels = beanMapper.map(dataDoaminClass, modelClass);
+			return ResponseEntity.ok(dataModels);
+		}
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+	}
+
+	public static <T> BaseResponseModel<T> mapToBaseResponseModel(final List<T> object, final Long limit, final Long count) {
+		final BaseResponseModel<T> baseResponseModel = new BaseResponseModel<>();
+		baseResponseModel.setData(object);
+		baseResponseModel.setCount(count);
+		if (limit != null) {
+			long pages = count / limit;
+			if (count % limit > 0) {
+				pages += 1;
+			}
+			baseResponseModel.setPages(pages == 0 ? 1 : pages);
+		}
+		return baseResponseModel;
+	}
+
+	public static ResponseEntity<Object> mapToBooleanContentResponse(Boolean isCreated, String keyName, String uniqueId) {
+		if (BooleanUtils.isFalse(isCreated)) {
+			return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
+		}
+		Map<String, Object> map = new TreeMap<>();
+		map.put(keyName, uniqueId);
+		return ResponseEntity.status(HttpStatus.CREATED).body(map);
+	}
 	
-    public static <S, D> ResponseEntity<Object> getApiResponseWithPagination(final Mapper beanMapper, final List<S> dataDoaminClass, final Class<D> modelClass) {
-        if (CollectionUtils.isNotEmpty(dataDoaminClass)) {
-            final List<D> dataModels = DozerMapperUtil.mapCollection(beanMapper, dataDoaminClass, modelClass);
-            final BaseResponseModel<D> baseResponseModel = mapToBaseResponseModel(dataModels, Long.MAX_VALUE, Long.valueOf(dataModels.size()));
-            return ResponseEntity.ok(baseResponseModel);
-        }
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
-    
-    public static <S, D> ResponseEntity<Object> getApiBaseContentResponseAsList(final Mapper beanMapper, final List<S> dataDoaminClass, final Class<D> modelClass) {
-        if (CollectionUtils.isNotEmpty(dataDoaminClass)) {
-            final List<D> dataModels = DozerMapperUtil.mapCollection(beanMapper, dataDoaminClass, modelClass);
-            return ResponseEntity.ok(dataModels);
-        }
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
-    
-    public static <S, D> ResponseEntity<Object> getApiBaseContentResponse(final Mapper beanMapper, final Class<S> dataDoaminClass, final Class<D> modelClass) {
-        if (Objects.nonNull(dataDoaminClass)) {
-            final D dataModels = beanMapper.map(dataDoaminClass, modelClass);
-            return ResponseEntity.ok(dataModels);
-        }
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
-    
-    public static <T> BaseResponseModel<T> mapToBaseResponseModel(final List<T> object, final Long limit, final Long count) {
-        final BaseResponseModel<T> baseResponseModel = new BaseResponseModel<>();
-        baseResponseModel.setData(object);
-        baseResponseModel.setCount(count);
-        if (limit != null) {
-            long pages = count / limit;
-            if (count % limit > 0) {
-                pages += 1;
-            }
-            baseResponseModel.setPages(pages == 0 ? 1 : pages);
-        }
-        return baseResponseModel;
-    }
+	public static ResponseEntity<Object> mapToContentResponse(String keyName, String uniqueId) {
+		Map<String, Object> map = new TreeMap<>();
+		map.put(keyName, uniqueId);
+		return ResponseEntity.status(HttpStatus.CREATED).body(map);
+	}
 }

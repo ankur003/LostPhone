@@ -12,7 +12,7 @@ import com.school.portal.enums.RoleEum;
 public class Role extends BaseDomain {
 
 	private static final long serialVersionUID = 7189961001551880900L;
-
+	
 	@Enumerated(EnumType.STRING)
 	private RoleEum name;
 
@@ -34,4 +34,5 @@ public class Role extends BaseDomain {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
 }

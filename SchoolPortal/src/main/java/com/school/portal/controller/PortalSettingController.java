@@ -2,6 +2,9 @@ package com.school.portal.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,11 +17,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.school.portal.domain.app.ClassMaster;
 import com.school.portal.domain.app.Holidays;
 import com.school.portal.domain.app.LoginCount;
 import com.school.portal.enums.ErrorCode;
 import com.school.portal.enums.ResponseCode;
+import com.school.portal.model.request.ClassSectionCreationModel;
+import com.school.portal.service.ClassSectionService;
 import com.school.portal.service.app.AppService;
+import com.school.portal.utils.DozerMapperUtil;
 import com.school.portal.utils.ResponseBuilder;
 
 import io.swagger.annotations.Api;
@@ -27,10 +34,13 @@ import io.swagger.annotations.Api;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/admin")
-public class PortalSettingController {
+public class PortalSettingController extends AbstractController{
 
 	@Autowired
 	private AppService appService;
+	
+	@Autowired
+	private ClassSectionService classSectionService;
 
 	@PutMapping(value = "/loginCount")
 	public ResponseEntity<Object> addOrUpdateLoginCount(@RequestParam("loginCount") Integer loginCount,
@@ -53,6 +63,18 @@ public class PortalSettingController {
 		}
 		return ResponseBuilder.response(HttpStatus.OK, false, "Holidays Added", ErrorCode.OK, ResponseCode.ACKNOWLEDGE,
 				addedHolidaysList);
+	}
+	
+	@PostMapping(value = "/class-section")
+	public ResponseEntity<Object> createClassSection(@Valid @RequestBody ClassSectionCreationModel classSectionCreationModel) {
+		final ClassMaster classMasterExist = classSectionService.getClassMaster(classSectionCreationModel.getClassName());
+		if(Objects.nonNull(classMasterExist)) {
+			return ResponseBuilder.response(HttpStatus.BAD_REQUEST, true, "class already created", ErrorCode.ERROR,
+					ResponseCode.ACKNOWLEDGE_WITHOUT_RESPONSE_OBJECT);
+		}
+		ClassMaster classMaster = DozerMapperUtil.getDomainClass(beanMapper, classSectionCreationModel, ClassMaster.class);
+		String classUuid = appService.createClassSection(classMaster, classSectionCreationModel);
+		return ResponseBuilder.mapToContentResponse("classId", classUuid);
 	}
 	
 }

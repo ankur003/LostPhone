@@ -28,12 +28,12 @@ public abstract class BaseDomain implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Enumerated(EnumType.STRING)
-	private AcademicYear academicYear;
-
-	private String createdByUuid;
+	private Long createdById;
 
 	private Boolean isActive = true;
+
+	@Enumerated(EnumType.STRING)
+	private AcademicYear academicYear;
 
 	@CreationTimestamp
 	@Column(nullable = false, updatable = false)
@@ -41,14 +41,6 @@ public abstract class BaseDomain implements Serializable {
 
 	@UpdateTimestamp
 	private LocalDateTime updatedAt;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
@@ -66,20 +58,12 @@ public abstract class BaseDomain implements Serializable {
 		this.updatedAt = updatedAt;
 	}
 
-	public String getCreatedByUuid() {
-		return createdByUuid;
+	public Long getCreatedById() {
+		return createdById;
 	}
 
-	public void setCreatedByUuid(String createdByUuid) {
-		this.createdByUuid = createdByUuid;
-	}
-
-	public AcademicYear getAcademicYear() {
-		return academicYear;
-	}
-
-	public void setAcademicYear(AcademicYear academicYear) {
-		this.academicYear = academicYear;
+	public void setCreatedById(Long createdById) {
+		this.createdById = createdById;
 	}
 
 	public Boolean getIsActive() {
@@ -88,6 +72,22 @@ public abstract class BaseDomain implements Serializable {
 
 	public void setIsActive(Boolean isActive) {
 		this.isActive = isActive;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public AcademicYear getAcademicYear() {
+		return academicYear;
+	}
+
+	public void setAcademicYear(AcademicYear academicYear) {
+		this.academicYear = academicYear;
 	}
 
 }

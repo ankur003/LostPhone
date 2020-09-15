@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -27,6 +28,14 @@ public class User extends BaseDomain {
 	private static final long serialVersionUID = -1293783007980955204L;
 
 	private String username;
+	
+	private String userEmail;
+	
+	private String firstName;
+	
+	private String middleName;
+	
+	private String lastName;
 
 	@JsonIgnore
 	private String password;
@@ -37,8 +46,6 @@ public class User extends BaseDomain {
 	private LocalDate dob;
 
 	private LocalDate doj;
-
-	private Long rollNo;
 
 	private String name;
 
@@ -60,7 +67,10 @@ public class User extends BaseDomain {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<UserClass> userClass = new ArrayList<>();
-
+	
+	@Column(unique = true, nullable = false, updatable = false)
+	private String userUuid;
+	
 	public String getUsername() {
 		return username;
 	}
@@ -99,14 +109,6 @@ public class User extends BaseDomain {
 
 	public void setDoj(LocalDate doj) {
 		this.doj = doj;
-	}
-
-	public Long getRollNo() {
-		return rollNo;
-	}
-
-	public void setRollNo(Long rollNo) {
-		this.rollNo = rollNo;
 	}
 
 	public String getName() {
@@ -165,4 +167,44 @@ public class User extends BaseDomain {
 		this.userClass = userClass;
 	}
 
+	public String getUserEmail() {
+		return userEmail;
+	}
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getMiddleName() {
+		return middleName;
+	}
+
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getUserUuid() {
+		return userUuid;
+	}
+
+	public void setUserUuid(String userUuid) {
+		this.userUuid = userUuid;
+	}
+	
 }

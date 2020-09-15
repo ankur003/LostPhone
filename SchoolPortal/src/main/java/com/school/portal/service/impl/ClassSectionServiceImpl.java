@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.school.portal.domain.ClassMaster;
+import com.school.portal.domain.app.ClassMaster;
 import com.school.portal.repo.ClassMasterRepo;
 import com.school.portal.service.ClassSectionService;
 
@@ -17,6 +17,11 @@ public class ClassSectionServiceImpl implements ClassSectionService {
 	@Override
 	public List<ClassMaster> getAllSectionClass() {
 		return classMasterRepo.findAll();
+	}
+
+	@Override
+	public ClassMaster getClassMaster(String className) {
+		return classMasterRepo.findByClassName(className);
 	}
 
 }

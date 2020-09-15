@@ -10,7 +10,7 @@ import com.school.portal.domain.base.BaseDomain;
 public class AddressDetail extends BaseDomain{
 
 	private static final long serialVersionUID = 7672013356112951122L;
-
+	
 	@ManyToOne
 	@JsonBackReference
 	private User user;
@@ -26,7 +26,7 @@ public class AddressDetail extends BaseDomain{
 	private String district;
 
 	private String addressType;
-
+	
 	public User getUser() {
 		return user;
 	}
@@ -59,7 +59,6 @@ public class AddressDetail extends BaseDomain{
 		this.post = post;
 	}
 
-
 	public String getAddressType() {
 		return addressType;
 	}
@@ -83,5 +82,5 @@ public class AddressDetail extends BaseDomain{
 	public void setDistrict(String district) {
 		this.district = district;
 	}
-	
+
 }

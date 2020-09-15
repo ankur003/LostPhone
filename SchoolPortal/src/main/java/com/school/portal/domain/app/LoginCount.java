@@ -5,17 +5,17 @@ import javax.persistence.Entity;
 import com.school.portal.domain.base.BaseDomain;
 
 @Entity
-public class LoginCount extends BaseDomain{
+public class LoginCount extends BaseDomain {
 
 	private static final long serialVersionUID = -4595989419831206375L;
 
 	private Integer countPermited;
 
-	public Integer getLoginCount() {
+	public Integer getCountPermited() {
 		return countPermited;
 	}
 
-	public void setLoginCount(Integer countPermited) {
+	public void setCountPermited(Integer countPermited) {
 		this.countPermited = countPermited;
 	}
 
