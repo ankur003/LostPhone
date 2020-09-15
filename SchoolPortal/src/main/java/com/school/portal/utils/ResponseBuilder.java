@@ -28,7 +28,6 @@ public class ResponseBuilder {
 		//
 	}
 
-
 	public static Map<String, Object> buildLoginResponse(String jwtToken, User user) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("token", jwtToken);
@@ -93,7 +92,8 @@ public class ResponseBuilder {
 
 	}
 
-	public static <S, D> ResponseEntity<Object> getApiResponseWithPagination(final Mapper beanMapper, final List<S> dataDoaminClass, final Class<D> modelClass) {
+	public static <S, D> ResponseEntity<Object> getApiResponseWithPagination(final Mapper beanMapper,
+			final List<S> dataDoaminClass, final Class<D> modelClass) {
 		if (CollectionUtils.isNotEmpty(dataDoaminClass)) {
 			final List<D> dataModels = DozerMapperUtil.mapCollection(beanMapper, dataDoaminClass, modelClass);
 			final BaseResponseModel<D> baseResponseModel = mapToBaseResponseModel(dataModels, Long.MAX_VALUE,
@@ -103,7 +103,8 @@ public class ResponseBuilder {
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 
-	public static <S, D> ResponseEntity<Object> getApiBaseContentResponseAsList(final Mapper beanMapper, final List<S> dataDoaminClass, final Class<D> modelClass) {
+	public static <S, D> ResponseEntity<Object> getApiBaseContentResponseAsList(final Mapper beanMapper,
+			final List<S> dataDoaminClass, final Class<D> modelClass) {
 		if (CollectionUtils.isNotEmpty(dataDoaminClass)) {
 			final List<D> dataModels = DozerMapperUtil.mapCollection(beanMapper, dataDoaminClass, modelClass);
 			return ResponseEntity.ok(dataModels);
@@ -111,7 +112,8 @@ public class ResponseBuilder {
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 
-	public static <S, D> ResponseEntity<Object> getApiBaseContentResponse(final Mapper beanMapper, final Class<S> dataDoaminClass, final Class<D> modelClass) {
+	public static <S, D> ResponseEntity<Object> getApiBaseContentResponse(final Mapper beanMapper,
+			final Class<S> dataDoaminClass, final Class<D> modelClass) {
 		if (Objects.nonNull(dataDoaminClass)) {
 			final D dataModels = beanMapper.map(dataDoaminClass, modelClass);
 			return ResponseEntity.ok(dataModels);
@@ -119,7 +121,8 @@ public class ResponseBuilder {
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 
-	public static <T> BaseResponseModel<T> mapToBaseResponseModel(final List<T> object, final Long limit, final Long count) {
+	public static <T> BaseResponseModel<T> mapToBaseResponseModel(final List<T> object, final Long limit,
+			final Long count) {
 		final BaseResponseModel<T> baseResponseModel = new BaseResponseModel<>();
 		baseResponseModel.setData(object);
 		baseResponseModel.setCount(count);
@@ -133,7 +136,8 @@ public class ResponseBuilder {
 		return baseResponseModel;
 	}
 
-	public static ResponseEntity<Object> mapToBooleanContentResponse(Boolean isCreated, String keyName, String uniqueId) {
+	public static ResponseEntity<Object> mapToBooleanContentResponse(Boolean isCreated, String keyName,
+			String uniqueId) {
 		if (BooleanUtils.isFalse(isCreated)) {
 			return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
 		}
@@ -141,10 +145,22 @@ public class ResponseBuilder {
 		map.put(keyName, uniqueId);
 		return ResponseEntity.status(HttpStatus.CREATED).body(map);
 	}
-	
+
 	public static ResponseEntity<Object> mapToContentResponse(String keyName, String uniqueId) {
 		Map<String, Object> map = new TreeMap<>();
 		map.put(keyName, uniqueId);
 		return ResponseEntity.status(HttpStatus.CREATED).body(map);
+	}
+
+	public static ResponseEntity<Object> getClassSectionResponse(List<ClassMaster> classMasters) {
+		List<Map<String, String>> resmap = new ArrayList<>();
+		for (ClassMaster classMaster : classMasters) {
+			Map<String, String> map = new HashMap<>();
+			for (SectionMaster sectionMaster : classMaster.getSectionMaster()) {
+				map.put(sectionMaster.getSectionName() , classMaster.getClassName());
+			}
+			resmap.add(map);
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(resmap);
 	}
 }

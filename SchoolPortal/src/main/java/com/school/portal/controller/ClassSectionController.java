@@ -28,6 +28,7 @@ public class ClassSectionController extends AbstractController{
 	@GetMapping(value = "/class-section")
 	public ResponseEntity<Object> getAllSectionClass() {
 		final List<ClassMaster> classMasters = classSectionService.getAllSectionClass();
-		return ResponseBuilder.getApiBaseContentResponseAsList(beanMapper, classMasters, ClassMasterModel.class);
+		return ResponseBuilder.getClassSectionResponse(classMasters);
+		//return ResponseBuilder.getApiBaseContentResponseAsList(beanMapper, classMasters, ClassMasterModel.class);
 	}
 }
