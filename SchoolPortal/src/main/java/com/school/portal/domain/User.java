@@ -68,6 +68,10 @@ public class User extends BaseDomain {
 	@JsonManagedReference
 	private List<UserClass> userClass = new ArrayList<>();
 	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL) 
+	@JsonManagedReference
+	private List<Attendance> attendance = new ArrayList<>();
+	
 	@Column(unique = true, nullable = false, updatable = false)
 	private String userUuid;
 	
@@ -205,6 +209,14 @@ public class User extends BaseDomain {
 
 	public void setUserUuid(String userUuid) {
 		this.userUuid = userUuid;
+	}
+
+	public List<Attendance> getAttendance() {
+		return attendance;
+	}
+
+	public void setAttendance(List<Attendance> attendance) {
+		this.attendance = attendance;
 	}
 	
 }

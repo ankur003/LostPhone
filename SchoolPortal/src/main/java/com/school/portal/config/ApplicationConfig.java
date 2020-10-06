@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.school.portal.domain.Attendance;
 import com.school.portal.domain.Role;
 import com.school.portal.domain.User;
 import com.school.portal.domain.app.ClassMaster;
@@ -24,6 +25,7 @@ import com.school.portal.domain.app.SectionMaster;
 import com.school.portal.enums.AcademicYear;
 import com.school.portal.enums.RoleEum;
 import com.school.portal.enums.UserType;
+import com.school.portal.repo.AttendanceRepo;
 import com.school.portal.repo.ClassMasterRepo;
 import com.school.portal.repo.UserRepo;
 import com.school.portal.utils.SchoolPortalUtils;
@@ -36,6 +38,9 @@ public class ApplicationConfig {
 
 	@Autowired
 	ClassMasterRepo classMasterRepo;
+	
+	@Autowired
+	private AttendanceRepo attendanceRepo;
 
 	@Autowired
 	private BCryptPasswordEncoder encoder;
@@ -73,6 +78,7 @@ public class ApplicationConfig {
 			admin.setIsActive(true);
 			admin.setUserUuid(SchoolPortalUtils.getUniqueUuid());
 			admin.setCreatedById(1l);
+			admin.setAcademicYear(AcademicYear.YEAR_2020_2021);
 			return userRepo.save(admin);
 		}
 		return admin;
@@ -82,10 +88,11 @@ public class ApplicationConfig {
 	private void createClassSection() {
 		List<ClassMaster> count = classMasterRepo.findAll();
 		if (CollectionUtils.isNotEmpty(count)) {
+			addAttendence(null);
 			return;
 		}
 		User admin = createAdmin();
-		
+
 		ClassMaster classMaster1 = new ClassMaster();
 		classMaster1.setAcademicYear(AcademicYear.YEAR_2020_2021);
 		classMaster1.setClassName("1st");
@@ -97,14 +104,28 @@ public class ApplicationConfig {
 		classMasterRepo.save(classMaster1);
 
 		ClassMaster classMaster2 = new ClassMaster();
-		 classMaster2.setAcademicYear(AcademicYear.YEAR_2020_2021);
-		 classMaster2.setClassName("2nd");
+		classMaster2.setAcademicYear(AcademicYear.YEAR_2020_2021);
+		classMaster2.setClassName("2nd");
 		classMaster2.setCreatedById((admin.getId()));
 		classMaster2.setIsActive(true);
 		classMaster2.setSectionMaster(getSectionMaster(classMaster2, admin));
 		classMaster2.setCreatedById(1l);
 		classMaster2.setClassUuid(SchoolPortalUtils.getUniqueUuid());
 		classMasterRepo.save(classMaster2);
+
+		addAttendence(admin); 
+	}
+
+	private void addAttendence(User admin) {
+		if (admin == null) {
+			admin = userRepo.findByUsernameAndIsActive("admin@schoolportal.com", true);
+		}
+		Attendance attendance = new Attendance();
+		attendance.setAbsentDate(LocalDate.now());
+		attendance.setUser(admin);
+		attendance.setIsAbsent(true);
+		attendance.setAcademicYear(AcademicYear.YEAR_2020_2021);
+		attendanceRepo.save(attendance);
 	}
 
 	private List<SectionMaster> getSectionMaster(ClassMaster classMaster, User user) {

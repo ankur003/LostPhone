@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.school.portal.domain.app.ClassMaster;
-import com.school.portal.model.response.ClassMasterModel;
 import com.school.portal.service.ClassSectionService;
 import com.school.portal.utils.ResponseBuilder;
 
@@ -20,15 +19,16 @@ import io.swagger.annotations.Api;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/admin")
-public class ClassSectionController extends AbstractController{
-	
+public class ClassSectionController extends AbstractController {
+
 	@Autowired
 	private ClassSectionService classSectionService;
-	
+
 	@GetMapping(value = "/class-section")
 	public ResponseEntity<Object> getAllSectionClass() {
 		final List<ClassMaster> classMasters = classSectionService.getAllSectionClass();
 		return ResponseBuilder.getClassSectionResponse(classMasters);
-		//return ResponseBuilder.getApiBaseContentResponseAsList(beanMapper, classMasters, ClassMasterModel.class);
+		// return ResponseBuilder.getApiBaseContentResponseAsList(beanMapper,
+		// classMasters, ClassMasterModel.class);
 	}
 }
