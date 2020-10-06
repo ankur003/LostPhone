@@ -1,9 +1,11 @@
 package com.school.portal.controller;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
@@ -22,10 +24,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.school.portal.domain.Attendance;
 import com.school.portal.domain.User;
+import com.school.portal.domain.app.Holidays;
 import com.school.portal.model.request.UserAttendanceRequestModel;
 import com.school.portal.model.response.AttendanceModel;
 import com.school.portal.service.AttendanceService;
 import com.school.portal.service.EntityService;
+import com.school.portal.service.HolidayService;
 import com.school.portal.utils.ResponseBuilder;
 import com.school.portal.utils.ValidUuid;
 
@@ -41,9 +45,12 @@ public class AttendanceController extends AbstractController {
 
 	@Autowired
 	private AttendanceService attendanceService;
-	
-	@Autowired 
+
+	@Autowired
 	private EntityService entityService;
+
+	@Autowired
+	private HolidayService holidayService;
 
 	@ApiOperation(value = "Get User Attendance", notes = "if `specificDate` is provided then seach criteria will work only on it.")
 	@GetMapping(value = "/attendance/{userUuid}")
@@ -51,20 +58,24 @@ public class AttendanceController extends AbstractController {
 			@ApiParam(value = "User Unique Id", required = true) @ValidUuid(message = "userUuid is missing") @PathVariable("userUuid") final String userUuid,
 			@Valid @ModelAttribute final UserAttendanceRequestModel userAttendanceRequestModel) {
 		final User user = entityService.getUser(userUuid);
-		if(user == null) {
+		if (user == null) {
 			return null;
 		}
 		List<Attendance> attendances = attendanceService.getUserAttendance(user, userAttendanceRequestModel);
 		return ResponseBuilder.getApiBaseContentResponseAsList(beanMapper, attendances, AttendanceModel.class);
 	}
-	
+
 	@ApiOperation(value = "Save Users Attendance", notes = "provide userUuids to mark them as absent")
 	@PostMapping(value = "/attendance")
 	public ResponseEntity<Object> saveUsersAttendance(
 			@ApiParam(value = "User Unique Id", required = true) @NotEmpty(message = "userUuid is missing") @RequestParam("userUuids") final Set<String> userUuid,
-			@ApiParam(value = "Absent Date", required = true) @Pattern(message = "userUuid is missing", regexp = "^\\\\d{4}\\\\-(0?[1-9]|1[012])\\\\-(0?[1-9]|[12][0-9]|3[01])$") @RequestParam("absentDate") final String absentDate) {
-		Boolean  isAdded = attendanceService.SaveUsersAttendance(userUuid, absentDate);
-		if(BooleanUtils.isTrue(isAdded)) {
+			@ApiParam(value = "Absent Date", required = true) @NotBlank(message = "absentDate can not be null") @Pattern(message = "absentDate is invalid", regexp = "^\\\\d{4}\\\\-(0?[1-9]|1[012])\\\\-(0?[1-9]|[12][0-9]|3[01])$") @RequestParam("absentDate") final String absentDate) {
+		Holidays holiday = holidayService.getHolidayDetails(absentDate);
+		if (Objects.nonNull(holiday)) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Absent Date is a holiday date");
+		}
+		Boolean isAdded = attendanceService.SaveUsersAttendance(userUuid, absentDate);
+		if (BooleanUtils.isTrue(isAdded)) {
 			return ResponseEntity.status(HttpStatus.OK).build();
 		}
 		return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
