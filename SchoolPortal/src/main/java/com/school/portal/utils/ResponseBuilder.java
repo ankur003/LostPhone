@@ -18,7 +18,6 @@ import com.school.portal.domain.User;
 import com.school.portal.domain.app.ClassMaster;
 import com.school.portal.domain.app.SectionMaster;
 import com.school.portal.dto.BaseResponseModel;
-import com.school.portal.dto.EnabledClassDto;
 import com.school.portal.enums.ErrorCode;
 import com.school.portal.enums.ResponseCode;
 

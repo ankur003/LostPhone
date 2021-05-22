@@ -1,21 +1,16 @@
 package com.school.portal.service.app;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.school.portal.controller.PortalSettingController;
 import com.school.portal.domain.app.ClassMaster;
 import com.school.portal.domain.app.Holidays;
 import com.school.portal.domain.app.LoginCount;
